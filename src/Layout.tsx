@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 
 function Layout() {
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+        <Navbar />
         <div className="container mx-auto max-w-7xl">
-          <Header />
           <main className="mt-4">
             <Outlet />
           </main>
