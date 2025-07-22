@@ -7,6 +7,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Overview />} />
+        <Route path="telemetry" element={<div>Telemetry Page</div>} />
+        <Route path="astronauts" element={<div>Astronauts Page</div>} />
+        <Route path="other" element={<div>Other Page</div>} />
       </Route>
     </Routes>
   );
