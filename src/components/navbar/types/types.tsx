@@ -8,6 +8,7 @@ export interface NavItem {
 
 export type ConnectionStatus = "connected" | "disconnected" | "error";
 
+// Connection status configuration with improved naming
 export const CONNECTION_STATUS_CONFIG = {
   connected: {
     dotColor: "bg-green-500",
@@ -26,5 +27,18 @@ export const CONNECTION_STATUS_CONFIG = {
     badgeClass: "bg-red-100 text-red-800 border-red-200",
     variant: "destructive" as const,
     text: "Error",
+  },
+} as const;
+
+// Animation and timing constants
+export const NAVBAR_ANIMATION_CONFIG = {
+  DURATION: {
+    DEFAULT: 300,
+    FAST: 200,
+    SLOW: 500,
+  },
+  TIMING_FUNCTIONS: {
+    EASE_OUT: "cubic-bezier(0.4, 0.0, 0.2, 1)",
+    BOUNCE: "cubic-bezier(0.34, 1.56, 0.64, 1)",
   },
 } as const;
