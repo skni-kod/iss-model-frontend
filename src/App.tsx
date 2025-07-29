@@ -11,6 +11,7 @@ function App() {
         <Route path="telemetry" element={<div>Telemetry Page</div>} />
         <Route path="astronauts" element={<Astronauts />} />
         <Route path="other" element={<div>Other Page</div>} />
+        <Route path="knowledge-base" element={<div>Knowledge Base Page</div>} />
       </Route>
     </Routes>
   );
