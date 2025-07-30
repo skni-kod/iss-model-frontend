@@ -1,18 +1,12 @@
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Activity, ChevronDown, RefreshCw } from "lucide-react";
+import { Activity, ChevronDown, Book } from "lucide-react";
 import { useLocation } from "react-router-dom";
-import {
-  CONNECTION_STATUS_CONFIG,
-  type ConnectionStatus,
-} from "../types/types";
-import { OptionsCollapsible } from "./OptionsCollapsible";
+import { Link } from "react-router-dom";
 
 // Animation and style constants
 const ANIMATION_CONFIG = {
@@ -30,25 +24,14 @@ const DROPDOWN_STYLES = {
   underline: "absolute bottom-0 left-0 h-0.5 bg-gray-900 transition-all",
   underlineActive: "w-full opacity-100",
   underlineInactive: "w-0 group-hover:w-full opacity-100",
-  statusGrid: "grid grid-cols-[20px_1fr_auto] gap-2 items-center",
-  refreshGrid: "grid grid-cols-[20px_1fr_auto] gap-2 items-center",
+  menuItem:
+    "flex items-center gap-2 px-2 py-2 text-sm hover:bg-gray-100 cursor-pointer",
 } as const;
 
-interface OptionsDropdownProps {
-  connectionStatus: ConnectionStatus;
-  isLoading: boolean;
-  onRefresh: () => void;
-}
-
-export const OptionsDropdown = ({
-  connectionStatus,
-  isLoading,
-  onRefresh,
-}: OptionsDropdownProps) => {
+export const OptionsDropdown = () => {
   const location = useLocation();
   const isActive =
     location.pathname === "/other" || location.pathname === "/knowledge-base";
-  const statusConfig = CONNECTION_STATUS_CONFIG[connectionStatus];
 
   const getTriggerClasses = () => {
     return `${DROPDOWN_STYLES.trigger} ${
@@ -110,43 +93,11 @@ export const OptionsDropdown = ({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56">
-        <div className="p-1">
-          <OptionsCollapsible variant="desktop" />
-        </div>
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem className={DROPDOWN_STYLES.statusGrid}>
-          <div
-            className={`w-2 h-2 rounded-full transition-colors flex-shrink-0 justify-self-center ${statusConfig.dotColor}`}
-            style={{ transitionDuration: `${ANIMATION_CONFIG.DURATION}ms` }}
-          />
-          <span className="text-sm">Status połączenia</span>
-          <Badge
-            variant={statusConfig.variant}
-            className={`${statusConfig.badgeClass} border font-medium text-xs px-2 py-1`}
-          >
-            {statusConfig.text}
-          </Badge>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem
-          onClick={onRefresh}
-          disabled={isLoading}
-          className={`${DROPDOWN_STYLES.refreshGrid} ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          <RefreshCw
-            className={`h-4 w-4 justify-self-center ${
-              isLoading ? "animate-spin" : ""
-            }`}
-            style={{
-              transitionDuration: `${ANIMATION_CONFIG.REFRESH_SPIN}ms`,
-              transitionProperty: "transform",
-            }}
-          />
-          <span>Odśwież dane</span>
-          <div></div>
+        <DropdownMenuItem asChild>
+          <Link to="/knowledge-base" className={DROPDOWN_STYLES.menuItem}>
+            <Book className="h-4 w-4" />
+            <span>Baza wiedzy</span>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

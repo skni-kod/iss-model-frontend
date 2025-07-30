@@ -1,4 +1,4 @@
-import { type ConnectionStatus, type NavItem } from "../types/types";
+import { type NavItem } from "../types/types";
 import { NavButton } from "./NavButton";
 import { MobileOptionsMenu } from "./MobileOptionsMenu";
 
@@ -25,9 +25,6 @@ interface MobileMenuProps {
   isOpen: boolean;
   leftNavItems: NavItem[];
   rightNavItems: NavItem[];
-  connectionStatus: ConnectionStatus;
-  isLoading: boolean;
-  onRefresh: () => void;
   onClose: () => void;
 }
 
@@ -35,9 +32,6 @@ export const MobileMenu = ({
   isOpen,
   leftNavItems,
   rightNavItems,
-  connectionStatus,
-  isLoading,
-  onRefresh,
   onClose,
 }: MobileMenuProps) => {
   const getContainerClasses = () => {
@@ -126,12 +120,7 @@ export const MobileMenu = ({
               leftNavItems.length + rightNavItems.length
             )}
           >
-            <MobileOptionsMenu
-              connectionStatus={connectionStatus}
-              isLoading={isLoading}
-              onRefresh={onRefresh}
-              onClose={onClose}
-            />
+            <MobileOptionsMenu onClose={onClose} />
           </div>
         </div>
       </div>

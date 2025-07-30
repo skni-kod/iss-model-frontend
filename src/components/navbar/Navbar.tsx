@@ -2,7 +2,7 @@ import { Satellite, Globe, Activity, Users } from "lucide-react";
 
 import { useState } from "react";
 
-import { type ConnectionStatus, type NavItem } from "./types/types";
+import { type NavItem } from "./types/types";
 import { NavButton } from "./_components/NavButton";
 import { OptionsDropdown } from "./_components/OptionsDropdown";
 import { HamburgerButton } from "./_components/HamburgerButton";
@@ -19,22 +19,8 @@ const NAV_CONFIG = {
   ] as NavItem[],
 } as const;
 
-// Simulation constants
-const LOADING_SIMULATION_DURATION = 1500;
-
 function Navbar() {
-  const [connectionStatus] = useState<ConnectionStatus>("disconnected");
-  const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // Simulate data fetching
-  const handleRefreshData = () => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, LOADING_SIMULATION_DURATION);
-  };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
@@ -92,11 +78,7 @@ function Navbar() {
                   icon={item.icon}
                 />
               ))}
-              <OptionsDropdown
-                connectionStatus={connectionStatus}
-                isLoading={isLoading}
-                onRefresh={handleRefreshData}
-              />
+              <OptionsDropdown />
             </div>
 
             {/* Mobile Hamburger Button */}
@@ -111,9 +93,6 @@ function Navbar() {
             isOpen={isMobileMenuOpen}
             leftNavItems={NAV_CONFIG.leftItems}
             rightNavItems={NAV_CONFIG.rightItems}
-            connectionStatus={connectionStatus}
-            isLoading={isLoading}
-            onRefresh={handleRefreshData}
             onClose={closeMobileMenu}
           />
         </div>
