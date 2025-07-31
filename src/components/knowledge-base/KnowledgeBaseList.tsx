@@ -29,7 +29,7 @@ function KnowledgeBaseList({
   hasFilters,
 }: KnowledgeBaseListProps) {
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="px-6 py-8">
       <KnowledgeBaseHeader />
 
       <TagsFilterSection
