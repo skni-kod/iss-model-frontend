@@ -31,7 +31,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50">
+    <nav className="fixed top-0 left-0 right-0 z-50">
       <div
         className={`bg-white/95 backdrop-blur-lg border-b border-gray-100 transition-all duration-300 ${
           isMobileMenuOpen ? "shadow-lg" : "shadow-sm"
