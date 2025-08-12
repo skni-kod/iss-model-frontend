@@ -1,4 +1,5 @@
 import { Satellite, Globe, Activity, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { useState } from "react";
 
@@ -52,7 +53,7 @@ function Navbar() {
             </div>
 
             {/* Center Logo */}
-            <div className="flex items-center gap-4">
+            <Link to="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity cursor-pointer">
               <div className="relative">
                 <div className="p-3 bg-gray-900 rounded-2xl">
                   <Satellite className="h-6 w-6 lg:h-8 lg:w-8 text-white transform rotate-12" />
@@ -66,7 +67,7 @@ function Navbar() {
                   Śledzenie stacji kosmicznej
                 </p>
               </div>
-            </div>
+            </Link>
 
             {/* Desktop Right Navigation */}
             <div className="hidden lg:flex items-center gap-8">
