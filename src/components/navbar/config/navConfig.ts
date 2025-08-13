@@ -75,7 +75,7 @@ export const NAV_CONFIG = {
   ] as NavItem[],
   rightItems: [
     {
-      label: "Astronauci",
+      label: "Załoga",
       href: "/astronauts",
       icon: Users,
       subItems: [
