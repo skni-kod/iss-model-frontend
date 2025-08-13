@@ -24,10 +24,10 @@ function Navbar() {
     <>
       {/* Overlay for dropdown */}
       {isDropdownOpen && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 animate-in fade-in-0 duration-200" />
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[1050] animate-in fade-in-0 duration-200" />
       )}
 
-      <nav className="fixed top-0 left-0 right-0 z-50">
+      <nav className="fixed top-0 left-0 right-0 z-[1100]">
         <div
           className={`bg-white/95 backdrop-blur-lg border-b border-gray-100 transition-all duration-300 ${
             isMobileMenuOpen ? "shadow-lg" : "shadow-sm"

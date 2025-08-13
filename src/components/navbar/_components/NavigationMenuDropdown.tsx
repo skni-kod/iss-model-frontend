@@ -29,7 +29,7 @@ export function NavigationMenuDropdown({
                   <item.icon className="h-4 w-4" />
                   {item.label}
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="w-screen left-1/2 transform -translate-x-1/2">
+                <NavigationMenuContent className="w-screen left-1/2 transform -translate-x-1/2 z-[1200]">
                   <div className="bg-white/95 backdrop-blur-lg py-8 w-full">
                     <div className="px-4 sm:px-6 lg:px-8 max-w-none w-full">
                       <ul className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl ml-0">
