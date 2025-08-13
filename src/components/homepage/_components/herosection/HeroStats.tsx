@@ -10,18 +10,18 @@ function HeroStats() {
 
   return (
     <motion.div
-      className="grid grid-cols-3 gap-6 py-8"
+      className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 py-6 sm:py-8"
       variants={heroItemVariants}
     >
       {stats.map((stat, index) => (
         <motion.div
           key={index}
-          className="text-left border-l-2 border-gray-600 pl-4"
+          className="text-left border-l-2 border-gray-600 pl-3 sm:pl-4"
           variants={heroStatsVariants}
           whileHover={{ scale: 1.02 }}
         >
-          <div className="text-2xl font-bold text-white">{stat.value}</div>
-          <div className="text-sm text-gray-500">{stat.label}</div>
+          <div className="text-xl sm:text-2xl font-bold text-white">{stat.value}</div>
+          <div className="text-xs sm:text-sm text-gray-500">{stat.label}</div>
         </motion.div>
       ))}
     </motion.div>

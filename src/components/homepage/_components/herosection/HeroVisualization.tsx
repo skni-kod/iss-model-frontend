@@ -4,15 +4,17 @@ import { heroItemVariants } from "../animations";
 function HeroVisualization() {
   return (
     <motion.div
-      className="relative"
+      className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto lg:mx-0"
       variants={heroItemVariants}
       initial={{ x: 50, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 1.5, ease: "easeOut" }}
     >
-      <div className="relative">
+      <div className="relative"
+        
+      >
         {/* Main placeholder */}
-        <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"></div>
+  <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-600 rounded-lg shadow-xl ring-1 ring-gray-500/40"></div>
 
         {/* Decorative elements */}
         <div className="absolute -top-4 -right-4 w-8 h-8 bg-white rounded-full opacity-20"></div>

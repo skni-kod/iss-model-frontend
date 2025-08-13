@@ -22,7 +22,7 @@ function HeroButtons() {
 
   return (
     <motion.div
-      className="flex flex-col sm:flex-row gap-4 pt-8"
+      className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6 sm:pt-8"
       variants={heroItemVariants}
     >
       {buttons.map((button, index) => (
@@ -35,7 +35,7 @@ function HeroButtons() {
           <Button
             asChild
             variant={button.variant || "default"}
-            className={button.className}
+            className={`${button.className} w-full sm:w-auto text-center`}
           >
             <Link to={button.to}>{button.text}</Link>
           </Button>

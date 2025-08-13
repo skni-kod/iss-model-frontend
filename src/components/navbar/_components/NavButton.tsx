@@ -35,6 +35,7 @@ export const NavButton = ({
 }: NavButtonProps) => {
   const location = useLocation();
   const isActive = location.pathname === href;
+  const to = href || "#";
 
   const getContainerClasses = () => {
     return `${NAV_BUTTON_STYLES.container} ${
@@ -60,7 +61,7 @@ export const NavButton = ({
 
   return (
     <Link
-      to={href}
+      to={to}
       onClick={onClick}
       className={getContainerClasses()}
       style={{ transitionDuration: `${ANIMATION_CONFIG.DURATION}ms` }}

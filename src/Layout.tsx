@@ -20,7 +20,7 @@ function Layout() {
         ) : (
           //Ograniczona szerokość dla innych stron
           <div className="container mx-auto max-w-7xl">
-            <main className="pt-25">
+            <main className="pt-24">
               <Outlet />
             </main>
             <Footer />
