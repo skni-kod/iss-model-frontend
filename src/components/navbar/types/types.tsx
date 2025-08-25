@@ -1,9 +1,17 @@
 import type { LucideIcon } from "lucide-react";
 
-export interface NavItem {
+export interface NavSubItem {
   label: string;
   href: string;
+  icon?: LucideIcon;
+  description?: string;
+}
+
+export interface NavItem {
+  label: string;
+  href?: string;
   icon: LucideIcon;
+  subItems?: NavSubItem[];
 }
 
 export type ConnectionStatus = "connected" | "disconnected" | "error";
