@@ -46,9 +46,7 @@ function KnowledgeBaseList({
 
       <PostsGrid posts={posts} onPostSelect={onPostSelect} />
 
-      {posts.length > 0 && (
-        <FeaturedPost post={posts[0]} onPostSelect={onPostSelect} />
-      )}
+      {posts.length > 0 && <FeaturedPost post={posts[0]} />}
     </div>
   );
 }
