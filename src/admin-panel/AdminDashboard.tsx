@@ -1,5 +1,9 @@
-import { DashboardHeader, StatsGrid, RecentPosts } from "./_components";
-import { useDashboardStats } from "./hooks/useDashboardStats";
+import {
+  DashboardHeader,
+  StatsGrid,
+  RecentPosts,
+  useDashboardStats,
+} from "./_components";
 
 const AdminDashboard = () => {
   const { stats, recentPosts } = useDashboardStats();

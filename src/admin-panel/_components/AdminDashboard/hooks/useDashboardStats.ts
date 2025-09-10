@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FileText, Users, Eye, TrendingUp } from "lucide-react";
-import { samplePosts } from "../../components/knowledge-base/data/posts";
+import { samplePosts } from "../../../../components/knowledge-base/data/posts";
 
 export const useDashboardStats = () => {
   const stats = useMemo(
