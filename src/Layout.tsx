@@ -4,15 +4,15 @@ import Footer from "./components/Footer";
 
 function Layout() {
   const location = useLocation();
-  const isOverviewPage =
-    location.pathname === "/" || location.pathname === "/overview";
+  const isTelemetryPage =
+    location.pathname === "/" || location.pathname === "/telemetry";
   const isHomePage = location.pathname === "/home-page";
 
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
         <Navbar />
-        {isOverviewPage || isHomePage ? (
+        {isTelemetryPage || isHomePage ? (
           //Pełna szerokość dla strony z mapą i home page
           <main>
             <Outlet />
