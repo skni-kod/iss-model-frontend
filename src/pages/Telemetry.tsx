@@ -34,7 +34,7 @@ function Telemetry() {
                     velocity: parseFloat((data.velocity / 3600).toFixed(2)),
                 });
             } catch (error) {
-                console.error("Błąd pobierania danych ISS:", error);
+                console.error("Error fetching ISS data:", error);
             }
         };
 
@@ -44,17 +44,31 @@ function Telemetry() {
     }, []);
 
     useEffect(() => {
+        const stored = localStorage.getItem("TLE");
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            const lastDate = new Date(parsed.date);
+            const now = new Date();
+            const hoursDiff = (now.getTime() - lastDate.getTime()) / (1000 * 60 * 60);
+        
+            if (hoursDiff < 24) {
+            setTLE(parsed);
+            return;
+            }
+      }
         const fetchTLE = async () => {
             try {
                 const res = await fetch("https://tle.ivanstanojevic.me/api/tle/25544");
                 const data = await res.json();
-                setTLE({
+                const newTLE = {
                     date: data.date,
                     line1: data.line1,
                     line2: data.line2
-                });
+                };
+                setTLE(newTLE);
+                localStorage.setItem("TLE", JSON.stringify(newTLE));
             } catch (error){
-                console.error("Błąd pobieranie danych TLE:", error);
+                console.error("Error fetching TLE data:", error);
             }
         }
         fetchTLE();
@@ -79,7 +93,7 @@ function Telemetry() {
             const future = new Date(now.getTime() + i * 60 * 1000);
             const pv = propagate(satrec, future);
 
-            if (pv.position) {
+            if (pv && pv.position) {
                 const gmst = gstime(future);
                 const geo = eciToGeodetic(pv.position, gmst);
 
@@ -93,10 +107,10 @@ function Telemetry() {
                     const diff = longitude - previousLon;
 
                     if (diff > 180) {
-                        // Crossed from east to west (e.g., from 170 to -170)
+                        // Crossed from east to west (from 170 to -170)
                         lonOffset -= 360;
                     } else if (diff < -180) {
-                        // Crossed from west to east (e.g., from -170 to 170)
+                        // Crossed from west to east (from -170 to 170)
                         lonOffset += 360;
                     }
                 }
@@ -112,30 +126,30 @@ function Telemetry() {
         }
 
         // ---- Nice circular trajectory ----
-        const periodMin = (2 * Math.PI) / satrec.no; // satrec.no = mean motion [rad/min]
+        const periodMin = (2 * Math.PI) / satrec.no;
         const periodMs  = periodMin * 60 * 1000;
         const steps     = 80;
 
-        const gmstEpoch = gstime(now); // FIXED GMST for the whole ring
+        const gmstEpoch = gstime(now);
 
-        const nicePoints: [number, number, number][] = []; // [lat, lon, altitudeMeters]
+        const nicePoints: [number, number, number][] = [];
 
         // sample one full revolution (0..period)
         for (let i = 0; i <= steps; i++) {
             const t = new Date(now.getTime() + (periodMs / steps) * i);
             const pv = propagate(satrec, t);
-            if (!pv.position) continue;
+            if (pv && pv.position) {
+                // Convert the ECI position (pv.position in km) to geodetic using FIXED gmstEpoch:
+                const geo = eciToGeodetic(pv.position, gmstEpoch);
 
-            // Convert the ECI position (pv.position in km) to geodetic using FIXED gmstEpoch:
-            const geo = eciToGeodetic(pv.position, gmstEpoch);
+                // degrees + height (eciToGeodetic returns radians & km)
+                let lon = radiansToDegrees(geo.longitude);
+                lon = ((lon + 540) % 360) - 180; // normalize to [-180,180]
+                const lat = radiansToDegrees(geo.latitude);
+                const altMeters = geo.height * 1000;
 
-            // degrees + height (eciToGeodetic returns radians & km)
-            let lon = radiansToDegrees(geo.longitude);
-            lon = ((lon + 540) % 360) - 180; // normalize to [-180,180]
-            const lat = radiansToDegrees(geo.latitude);
-            const altMeters = geo.height * 1000;
-
-            nicePoints.push([lat, lon, altMeters]);
+                nicePoints.push([lat, lon, altMeters]);
+            }
         }
 
         // ensure exact closure (first == last) to avoid tiny numeric gap
@@ -143,8 +157,8 @@ function Telemetry() {
             nicePoints[nicePoints.length - 1] = nicePoints[0];
         }
 
-        setTrajectory(continuousPoints);  // single continuous segment
-        setNiceTrajectory(nicePoints);    // smooth artificial trajectory
+        setTrajectory(continuousPoints);
+        setNiceTrajectory(nicePoints);
     }, [TLE, telemetry]);
 
 

@@ -35,7 +35,7 @@ function InfoOverlay({ latitude, longitude, altitude, velocity }: Props) {
                 </div>
                 <div>
                     <span className="font-semibold">Prędkość: </span>
-                    {velocity.toFixed(2)} km/h
+                    {velocity.toFixed(2)} km/s
                 </div>
             </div>
         </div>

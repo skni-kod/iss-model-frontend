@@ -6,15 +6,15 @@ import {Viewer, Entity, ImageryLayer} from "resium";
 import {Cartesian3, Color, SceneMode, UrlTemplateImageryProvider, ColorMaterialProperty,} from "cesium";
 import InfoOverlay from "@/components/telemetry/InfoOverlay.tsx";
 
-type Props = {
+type MapProps = {
     position: [number, number],
     trajectory: [number, number][],
-    niceTrajectory: [number, number][],
+    niceTrajectory: [number, number, number][],
     velocity: number,
     altitude: number,
 };
 
-function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Props) {
+function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: MapProps) {
     const [latitude, longitude] = position;
 
     const [mode, setMode] = useState<"2d" | "3d">("2d");
