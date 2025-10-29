@@ -1,6 +1,5 @@
 import { type NavItem } from "../types/types";
-import { NavButton } from "./NavButton";
-import { MobileOptionsMenu } from "./MobileOptionsMenu";
+import { MobileNavItem } from "./MobileNavItem";
 
 // Animation configuration
 const ANIMATION_CONFIG = {
@@ -88,12 +87,7 @@ export const MobileMenu = ({
               className={getItemClasses()}
               style={getItemAnimationStyle(index)}
             >
-              <NavButton
-                label={item.label}
-                href={item.href}
-                icon={item.icon}
-                onClick={onClose}
-              />
+              <MobileNavItem item={item} onClose={onClose} />
             </div>
           ))}
 
@@ -104,24 +98,9 @@ export const MobileMenu = ({
               className={getItemClasses()}
               style={getItemAnimationStyle(leftNavItems.length + index)}
             >
-              <NavButton
-                label={item.label}
-                href={item.href}
-                icon={item.icon}
-                onClick={onClose}
-              />
+              <MobileNavItem item={item} onClose={onClose} />
             </div>
           ))}
-
-          {/* Mobile Options Section */}
-          <div
-            className={getItemClasses()}
-            style={getItemAnimationStyle(
-              leftNavItems.length + rightNavItems.length
-            )}
-          >
-            <MobileOptionsMenu onClose={onClose} />
-          </div>
         </div>
       </div>
     </div>

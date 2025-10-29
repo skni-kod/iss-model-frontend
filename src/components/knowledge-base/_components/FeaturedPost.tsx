@@ -1,18 +1,17 @@
 import type { Post } from "../types";
-import { Button } from "../../ui/button";
+import { Link } from "react-router-dom";
 
 interface FeaturedPostProps {
   post: Post;
-  onPostSelect: (post: Post) => void;
 }
 
-function FeaturedPost({ post, onPostSelect }: FeaturedPostProps) {
+function FeaturedPost({ post }: FeaturedPostProps) {
   return (
     <div className="mt-12 border-t pt-12">
       <h2 className="text-2xl font-bold mb-6 text-foreground">
         Wyróżniony artykuł
       </h2>
-      <div className="bg-card border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+      <div className="bg-card border rounded-lg overflow-hidden shadow-sm">
         <div className="md:flex">
           <div className="md:w-1/2">
             <img
@@ -30,9 +29,12 @@ function FeaturedPost({ post, onPostSelect }: FeaturedPostProps) {
                 {post.readTime}
               </span>
             </div>
-            <h3 className="text-xl font-bold mb-3 text-foreground">
+            <Link
+              to={`/knowledge-base/${post.slug}`}
+              className="text-xl font-bold mb-3 text-foreground hover:text-primary transition-colors block"
+            >
               {post.title}
-            </h3>
+            </Link>
             <p className="text-muted-foreground mb-4 line-clamp-3">
               {post.excerpt}
             </p>
@@ -40,13 +42,12 @@ function FeaturedPost({ post, onPostSelect }: FeaturedPostProps) {
               <div className="text-sm text-muted-foreground">
                 {post.author} • {post.publishDate}
               </div>
-              <Button
-                onClick={() => onPostSelect(post)}
-                variant="link"
-                className="text-primary hover:text-primary/80 font-medium text-sm transition-colors p-0"
+              <Link
+                to={`/knowledge-base/${post.slug}`}
+                className="text-primary hover:text-primary/80 font-medium text-sm transition-colors hover:underline"
               >
                 Czytaj więcej →
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

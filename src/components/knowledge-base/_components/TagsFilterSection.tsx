@@ -28,7 +28,7 @@ function TagsFilterSection({
   return (
     <div className="mb-8 space-y-4">
       {/* Search bar */}
-      <div className="relative max-w-md">
+      <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
         <Input
           placeholder="Szukaj artykułów..."
@@ -70,7 +70,6 @@ function TagsFilterSection({
           )}
         </div>
         <div className="text-sm text-muted-foreground">
-          {postsCount} z {totalPostsCount} artykułów
           {hasFilters && <span className="text-primary"> (filtrowane)</span>}
         </div>
       </div>

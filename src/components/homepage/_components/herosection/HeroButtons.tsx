@@ -9,14 +9,14 @@ function HeroButtons() {
       to: "/telemetry",
       text: "Rozpocznij monitorowanie",
       className:
-        "px-8 py-3 bg-white text-black hover:bg-gray-100 font-semibold transition-all duration-300 hover:scale-105 rounded-none",
+        "px-8 py-4 bg-white text-black hover:bg-gray-100 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg border-0 shadow-md rounded-none",
     },
     {
       to: "/astronauts",
       text: "Informacje o załodze",
       variant: "outline" as const,
       className:
-        "px-8 py-3 bg-white text-black hover:bg-gray-100 font-semibold transition-all duration-300 hover:scale-105 rounded-none",
+        "px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:text-white hover:bg-white/20 hover:border-white/40 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-none",
     },
   ];
 

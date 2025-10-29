@@ -10,7 +10,7 @@ interface KnowledgeBaseArticleProps {
 
 function KnowledgeBaseArticle({ post, onBack }: KnowledgeBaseArticleProps) {
   return (
-    <div className="px-6 py-8">
+    <div className="px-6 py-3">
       <ArticleHeader post={post} onBack={onBack} />
       <ArticleContent post={post} />
       <ArticleFooter />
