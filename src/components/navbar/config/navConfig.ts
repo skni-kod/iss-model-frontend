@@ -109,6 +109,12 @@ export const NAV_CONFIG = {
           icon: BookOpen,
           description: "Najczęściej zadawane pytania",
         },
+        {
+          label: "Panel Admina",
+          href: "/admin",
+          icon: Settings,
+          description: "Zarządzanie treścią",
+        },
       ],
     },
   ] as NavItem[],
