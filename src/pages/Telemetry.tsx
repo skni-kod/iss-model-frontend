@@ -11,7 +11,7 @@ type TelemetryData = {
 };
 
 type TLEData = {
-    date: Date;
+    fetchedAt: string;
     line1: string;
     line2: string;
 }
@@ -47,13 +47,14 @@ function Telemetry() {
         const stored = localStorage.getItem("TLE");
         if (stored) {
             const parsed = JSON.parse(stored);
-            const lastDate = new Date(parsed.date);
+            const lastFetch = new Date(parsed.fetchedAt);
             const now = new Date();
-            const hoursDiff = (now.getTime() - lastDate.getTime()) / (1000 * 60 * 60);
-        
-            if (hoursDiff < 24) {
-            setTLE(parsed);
-            return;
+            const hoursDiff = (now.getTime() - lastFetch.getTime()) / (1000 * 60 * 60);
+
+            if (hoursDiff < 1) {
+                console.log("Using cached TLE");
+                setTLE(parsed);
+                return;
             }
       }
         const fetchTLE = async () => {
@@ -61,7 +62,7 @@ function Telemetry() {
                 const res = await fetch("https://tle.ivanstanojevic.me/api/tle/25544");
                 const data = await res.json();
                 const newTLE = {
-                    date: data.date,
+                    fetchedAt: new Date().toISOString(),
                     line1: data.line1,
                     line2: data.line2
                 };
