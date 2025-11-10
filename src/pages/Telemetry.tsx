@@ -173,7 +173,7 @@ function Telemetry() {
             </div>
 
             <div className="w-full">
-                {telemetry  ? (
+                {telemetry && TLE ? (
                     <ISSMap
                         position={[telemetry.latitude, telemetry.longitude]}
                         altitude={telemetry.altitude}
@@ -181,12 +181,16 @@ function Telemetry() {
                         trajectory={trajectory}
                         niceTrajectory={niceTrajectory}
                     />
+                    
                 ) : (
-                    <img
-                        src="src/images/placeholdermap.png"
-                        alt="Mapa ISS"
-                        className="w-full rounded-lg shadow-lg"
-                    />
+                    <div className="w-full h-[600px] flex flex-col items-center justify-center bg-gray-100 rounded-2xl shadow-md">
+                        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+                            Brak danych o pozycji ISS
+                        </h2>
+                        <p className="text-gray-500 text-lg">
+                            Nasze API jest chwilowo niedostępne. Spróbuj ponownie później.
+                        </p>
+                    </div>
                 )}
             </div>
 

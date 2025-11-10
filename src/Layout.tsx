@@ -14,13 +14,13 @@ function Layout() {
         <Navbar />
         {isTelemetryPage || isHomePage ? (
           //Pełna szerokość dla strony z mapą i home page
-          <main>
+          <main className="pt-20 md:pt-24">
             <Outlet />
           </main>
         ) : (
           //Ograniczona szerokość dla innych stron
           <div className="container mx-auto max-w-7xl">
-            <main className="pt-24">
+            <main className="pt-24 md:pt-28">
               <Outlet />
             </main>
             <Footer />

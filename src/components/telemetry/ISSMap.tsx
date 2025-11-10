@@ -1,10 +1,13 @@
-import {useState} from "react";
-import {MapContainer, TileLayer, Marker, Polyline} from "react-leaflet";
+import {useState, useEffect} from "react";
+import {MapContainer, TileLayer, Marker, Polyline, ZoomControl} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import {Viewer, Entity, ImageryLayer} from "resium";
-import {Cartesian3, Color, SceneMode, UrlTemplateImageryProvider, ColorMaterialProperty,} from "cesium";
+import {Viewer, Entity, ImageryLayer, CameraFlyTo} from "resium";
+import {Cartesian3, Color, SceneMode, UrlTemplateImageryProvider, ColorMaterialProperty} from "cesium";
 import InfoOverlay from "@/components/telemetry/InfoOverlay.tsx";
+import BottomInfoBar from "./BottomInfoBar";
+
+const OFFSET = 50;
 
 type MapProps = {
     position: [number, number],
@@ -19,8 +22,18 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
 
     const [mode, setMode] = useState<"2d" | "3d">("2d");
     const [currentView, setCurrentView] = useState<'real' | 'nice'>('real');
+    const [isSmallScreen, setIsSmallScreen] = useState<boolean>(
+        typeof window !== 'undefined' ? window.innerWidth < 768 : false
+    );
 
     const [lat, lon] = position;
+
+    useEffect(() => {
+        const checkSize = () => setIsSmallScreen(window.innerWidth < 768);
+        checkSize();
+        window.addEventListener('resize', checkSize);
+        return () => window.removeEventListener('resize', checkSize);
+    }, []);
 
     const issIcon = new L.Icon({
         iconUrl: "src/images/space-station.png",
@@ -37,11 +50,11 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
     });
 
     return (
-        <div className="relative h-[80vh] w-full ">
+        <div className="relative w-full h-[80vh] md:h-[80vh]">
             {/* switch between 3d and 2d*/}
             <button
                 onClick={() => setMode(mode === "2d" ? "3d" : "2d")}
-                className="absolute top-2 left-2 z-[1000] bg-slate-900/70 text-white px-4 py-2 rounded-lg cursor-pointer shadow-md"
+                className="absolute top-2 left-2 z-[1000] bg-slate-900/70 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg cursor-pointer shadow-md text-sm md:text-base"
             >
                 {mode === "2d" ? "Przełącz na 3D" : "Przełącz na 2D"}
             </button>
@@ -49,8 +62,8 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
             {mode === "3d" && (
                 <button
                     onClick={() => setCurrentView(currentView === "real" ? "nice" : "real")}
-                    className={`absolute top-2 right-2 z-[1000] px-12 py-2 rounded-full shadow-md 
-            ${currentView === "real" ? "bg-indigo-600 text-white" : "bg-white text-indigo-600 border border-indigo-600"}`}
+                    className={`absolute top-16 left-2 z-[1000] px-3 md:px-4 py-2 rounded-lg shadow-md text-sm md:text-base
+            ${currentView === "real" ? "bg-indigo-600/70 text-white" : "bg-white/70 text-indigo-600 border border-indigo-600"}`}
                 >
                     {currentView === "real" ? "Nice Orbit" : "Real Orbit"}
                 </button>
@@ -58,21 +71,35 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
 
             {mode === "2d" ? (
                 <MapContainer
-                    center={position}
-                    zoom={1}
+                    center={[0,position[1]+OFFSET]}
+                    zoomSnap={0.1}
+                    zoom={1.6}
+                    minZoom={0.1}
+                    maxZoom={7}
                     className="h-[70vh] w-full"
                     style={{backgroundColor: "white"}}
-                    scrollWheelZoom={false}
+                    scrollWheelZoom={isSmallScreen}
+                    doubleClickZoom={false}
                     zoomControl={false}
                     dragging={false}
                     maxBoundsViscosity={1.0}
+                    worldCopyJump={true}
                 >
-                    <InfoOverlay
-                        latitude={latitude}
-                        longitude={longitude}
-                        altitude={altitude}
-                        velocity={velocity}
-                    />
+                    {!isSmallScreen && (
+                        <InfoOverlay
+                            latitude={latitude}
+                            longitude={longitude}
+                            altitude={altitude}
+                            velocity={velocity}
+                        />
+                    )}
+                    {isSmallScreen && (
+                        <><BottomInfoBar
+                            latitude={latitude}
+                            longitude={longitude}
+                            altitude={altitude}
+                            velocity={velocity} /><ZoomControl position="topright" /></>
+                    )}
                     <TileLayer
                         url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                         attribution='Tiles © Esri | <a href="https://www.flaticon.com/free-icons/space-station" title="space station icons">
@@ -90,15 +117,43 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
                     baseLayerPicker={false}
                     animation={false}
                     timeline={false}
+                    geocoder={false}
+                    homeButton={false}
+                    navigationHelpButton={false}
+                    sceneModePicker={false}
+                    selectionIndicator={false}
+                    infoBox={false}
+                    fullscreenButton={false}
+                       ref={(viewer) => {
+                           if (viewer?.cesiumElement?.scene?.screenSpaceCameraController) {
+                               viewer.cesiumElement.scene.screenSpaceCameraController.minimumZoomDistance = 1000000; // 1,000 km
+                               viewer.cesiumElement.scene.screenSpaceCameraController.maximumZoomDistance = 40000000; // 40,000 km
+                           }
+                       }}
                 >
+                       <CameraFlyTo
+                           destination={Cartesian3.fromDegrees(0, 0, 25000000)}
+                           duration={0}
+                           once={true}
+                       />
                     <ImageryLayer imageryProvider={esriProvider}/>
 
-                    <InfoOverlay
-                        latitude={latitude}
-                        longitude={longitude}
-                        altitude={altitude}
-                        velocity={velocity}
-                    />
+                    {!isSmallScreen && (
+                        <InfoOverlay
+                            latitude={latitude}
+                            longitude={longitude}
+                            altitude={altitude}
+                            velocity={velocity}
+                        />
+                    )}
+                    {isSmallScreen && (
+                        <BottomInfoBar
+                            latitude={latitude}
+                            longitude={longitude}
+                            altitude={altitude}
+                            velocity={velocity}
+                        />
+                    )}
 
                     <Entity
                         position={Cartesian3.fromDegrees(lon, lat, altitude * 1000)}
