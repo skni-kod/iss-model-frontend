@@ -4,6 +4,7 @@ import Telemetry from "./pages/Telemetry";
 import Astronauts from "./pages/Astronauts";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Home from "./pages/Home";
+import { FAQPage } from "./components/faq";
 
 // Admin Panel Components
 import AdminLayout from "./admin-panel/AdminLayout";
@@ -18,7 +19,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="telemetry" element={<Telemetry />} />
         <Route path="astronauts" element={<Astronauts />} />
-        <Route path="other" element={<div>Other Page</div>} />
+        <Route path="faq" element={<FAQPage />} />
         <Route path="knowledge-base" element={<KnowledgeBase />} />
         <Route path="knowledge-base/:postId" element={<KnowledgeBase />} />
       </Route>

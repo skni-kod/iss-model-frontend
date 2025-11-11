@@ -4,12 +4,8 @@ import {
   Users,
   BookOpen,
   Map,
-  Telescope,
   MoreHorizontal,
-  Zap,
   Settings,
-  BarChart3,
-  Wifi,
 } from "lucide-react";
 import { type NavItem } from "../types/types";
 
@@ -26,18 +22,6 @@ export const NAV_CONFIG = {
           href: "/",
           icon: Activity,
           description: "Przejdź do strony głównej",
-        },
-        {
-          label: "Lorem Ipsum",
-          href: "/lorem1",
-          icon: Zap,
-          description: "Lorem ipsum dolor sit amet consectetur",
-        },
-        {
-          label: "Placeholder Item",
-          href: "/placeholder1",
-          icon: Settings,
-          description: "Sed do eiusmod tempor incididunt ut labore",
         },
       ],
     },
@@ -58,18 +42,6 @@ export const NAV_CONFIG = {
           icon: Activity,
           description: "Aktualne dane telemetryczne ISS",
         },
-        {
-          label: "cos kiedys tu bedzie",
-          href: "/aasdasdasda",
-          icon: BarChart3,
-          description: "Lorem ipsum dolor sit amet consectetur adipiscing",
-        },
-        {
-          label: "tu tez",
-          href: "/tutez",
-          icon: Wifi,
-          description: "Ut enim ad minim veniam quis nostrud",
-        },
       ],
     },
   ] as NavItem[],
@@ -85,12 +57,6 @@ export const NAV_CONFIG = {
           icon: Users,
           description: "Lista astronautów na stacji",
         },
-        {
-          label: "Historia misji",
-          href: "/astronauts/history",
-          icon: Telescope,
-          description: "Poprzednie załogi ISS",
-        },
       ],
     },
     {
@@ -105,7 +71,7 @@ export const NAV_CONFIG = {
         },
         {
           label: "FAQ",
-          href: "/knowledge-base/faq",
+          href: "/faq",
           icon: BookOpen,
           description: "Najczęściej zadawane pytania",
         },
