@@ -9,20 +9,20 @@ function HeroButtons() {
       to: "/telemetry",
       text: "Rozpocznij monitorowanie",
       className:
-        "px-8 py-4 bg-white text-black hover:bg-gray-100 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg border-0 shadow-md rounded-none",
+        "px-6 sm:px-8 py-3 sm:py-4 bg-white text-black hover:bg-gray-100 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg border-0 shadow-md rounded-none w-full sm:w-auto text-center",
     },
     {
       to: "/astronauts",
       text: "Informacje o załodze",
       variant: "outline" as const,
       className:
-        "px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:text-white hover:bg-white/20 hover:border-white/40 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-none",
+        "px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:text-white hover:bg-white/20 hover:border-white/40 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-none w-full sm:w-auto text-center",
     },
   ];
 
   return (
     <motion.div
-      className="flex flex-col sm:flex-row gap-4 pt-8"
+      className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6 md:pt-8 mt-4 md:mt-6"
       variants={heroItemVariants}
     >
       {buttons.map((button, index) => (
@@ -31,6 +31,7 @@ function HeroButtons() {
           variants={heroButtonVariants}
           whileHover="hover"
           whileTap="tap"
+          className="w-full sm:w-auto"
         >
           <Button
             asChild
