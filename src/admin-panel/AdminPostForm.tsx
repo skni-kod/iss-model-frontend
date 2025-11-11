@@ -28,12 +28,15 @@ const AdminPostForm = () => {
   } = form;
 
   return (
-    <div>
+    <div className="max-w-full overflow-x-hidden">
       <PostFormHeader isEdit={isEdit} />
 
-      <div className="grid gap-8 grid-cols-1">
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <div className="grid gap-6 sm:gap-8 grid-cols-1">
+        <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 sm:space-y-6"
+          >
             <BasicFields register={register} errors={errors} />
 
             <ContentEditor

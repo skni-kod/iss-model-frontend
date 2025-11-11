@@ -19,7 +19,7 @@ export const BasicFields = ({ register, errors }: BasicFieldsProps) => {
         <input
           {...register("title")}
           type="text"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="Wprowadź tytuł posta..."
         />
         {errors.title && (
@@ -36,7 +36,7 @@ export const BasicFields = ({ register, errors }: BasicFieldsProps) => {
         <textarea
           {...register("excerpt")}
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
           placeholder="Krótki opis posta, który będzie wyświetlany na liście..."
         />
         {errors.excerpt && (
