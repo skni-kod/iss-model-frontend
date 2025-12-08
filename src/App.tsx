@@ -5,6 +5,7 @@ import Astronauts from "./pages/Astronauts";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import { FAQPage } from "./components/faq";
 
 // Admin Panel Components
@@ -16,8 +17,9 @@ import AdminPostForm from "./admin-panel/AdminPostForm";
 function App() {
   return (
     <Routes>
-      {/* Login Page - standalone without navbar */}
+      {/* Auth Pages - standalone without navbar */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />

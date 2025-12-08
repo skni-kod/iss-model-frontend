@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Satellite, Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Satellite, Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,25 +16,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { containerVariants, itemVariants } from "./animations";
-import { loginSchema, type LoginFormData } from "./schemas";
+import { registerSchema, type RegisterFormData } from "./schemas";
 
-export function LoginForm() {
+export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true);
     
-    // TODO: Implement actual login logic with API
-    console.log("Login attempt:", data);
+    // TODO: Implement actual registration logic with API
+    console.log("Register attempt:", data);
     
     // Simulate API call
     setTimeout(() => {
@@ -59,16 +60,36 @@ export function LoginForm() {
           </motion.div>
           <motion.div variants={itemVariants}>
             <CardTitle className="text-2xl font-bold text-white">
-              Witaj ponownie
+              Utwórz konto
             </CardTitle>
             <CardDescription className="text-gray-400 mt-2">
-              Zaloguj się do panelu ISS Tracker
+              Dołącz do ISS Tracker już dziś
             </CardDescription>
           </motion.div>
         </CardHeader>
 
         <CardContent className="pt-4">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <motion.div variants={itemVariants} className="space-y-2">
+              <Label htmlFor="name" className="text-gray-300">
+                Nazwa użytkownika
+              </Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="User123"
+                  {...register("name")}
+                  className="pl-10 bg-gray-800/50 border-white/10 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/20"
+                  aria-invalid={errors.name ? "true" : "false"}
+                />
+              </div>
+              {errors.name && (
+                <p className="text-sm text-red-400">{errors.name.message}</p>
+              )}
+            </motion.div>
+
             <motion.div variants={itemVariants} className="space-y-2">
               <Label htmlFor="email" className="text-gray-300">
                 Email
@@ -120,16 +141,38 @@ export function LoginForm() {
               )}
             </motion.div>
 
-            <motion.div variants={itemVariants} className="flex items-center justify-end">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
-              >
-                Zapomniałeś hasła?
-              </Link>
+            <motion.div variants={itemVariants} className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-gray-300">
+                Potwierdź hasło
+              </Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  {...register("confirmPassword")}
+                  className="pl-10 pr-10 bg-gray-800/50 border-white/10 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/20"
+                  aria-invalid={errors.confirmPassword ? "true" : "false"}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-400">{errors.confirmPassword.message}</p>
+              )}
             </motion.div>
 
-            <motion.div variants={itemVariants}>
+            <motion.div variants={itemVariants} className="pt-2">
               <Button
                 type="submit"
                 disabled={isLoading}
@@ -142,7 +185,7 @@ export function LoginForm() {
                     className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                   />
                 ) : (
-                  "Zaloguj się"
+                  "Zarejestruj się"
                 )}
               </Button>
             </motion.div>
@@ -160,12 +203,12 @@ export function LoginForm() {
           </motion.div>
 
           <motion.p variants={itemVariants} className="text-center text-sm text-gray-400">
-            Nie masz konta?{" "}
+            Masz już konto?{" "}
             <Link
-              to="/register"
+              to="/login"
               className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
             >
-              Zarejestruj się
+              Zaloguj się
             </Link>
           </motion.p>
         </CardFooter>
@@ -183,4 +226,4 @@ export function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

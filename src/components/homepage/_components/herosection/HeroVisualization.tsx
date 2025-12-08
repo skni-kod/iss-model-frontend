@@ -11,8 +11,12 @@ function HeroVisualization() {
       transition={{ duration: 1.5, ease: "easeOut" }}
     >
       <div className="relative">
-        {/* Main placeholder */}
-        <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"></div>
+        {/* Home page image */}
+        <img 
+          src="/src/images/home-page-photo.png" 
+          alt="ISS - Międzynarodowa Stacja Kosmiczna"
+          className="aspect-square object-cover bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
+        />
 
         {/* Decorative elements */}
         <div className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full opacity-20"></div>
