@@ -4,6 +4,7 @@ import Telemetry from "./pages/Telemetry";
 import Astronauts from "./pages/Astronauts";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
 import { FAQPage } from "./components/faq";
 
 // Admin Panel Components
@@ -15,6 +16,9 @@ import AdminPostForm from "./admin-panel/AdminPostForm";
 function App() {
   return (
     <Routes>
+      {/* Login Page - standalone without navbar */}
+      <Route path="/login" element={<LoginPage />} />
+
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="telemetry" element={<Telemetry />} />
