@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Satellite, Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Satellite, Eye, EyeOff, Lock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,10 +17,12 @@ import {
 } from "@/components/ui/card";
 import { containerVariants, itemVariants } from "./animations";
 import { loginSchema, type LoginFormData } from "./schemas";
+import { useLogin } from "./hooks/useLogin";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { isLoading, errorMessage, handleLogin } = useLogin();
 
   const {
     register,
@@ -31,15 +33,10 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
-    
-    // TODO: Implement actual login logic with API
-    console.log("Login attempt:", data);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    await handleLogin({
+      username: data.username,
+      password: data.password,
+    });
   };
 
   return (
@@ -68,24 +65,33 @@ export function LoginForm() {
         </CardHeader>
 
         <CardContent className="pt-4">
+          {errorMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/30 text-red-400 text-sm"
+            >
+              {errorMessage}
+            </motion.div>
+          )}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <motion.div variants={itemVariants} className="space-y-2">
-              <Label htmlFor="email" className="text-gray-300">
-                Email
+              <Label htmlFor="username" className="text-gray-300">
+                Nazwa użytkownika
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="nazwa@przykład.pl"
-                  {...register("email")}
+                  id="username"
+                  type="text"
+                  placeholder="User123"
+                  {...register("username")}
                   className="pl-10 bg-gray-800/50 border-white/10 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/20"
-                  aria-invalid={errors.email ? "true" : "false"}
+                  aria-invalid={errors.username ? "true" : "false"}
                 />
               </div>
-              {errors.email && (
-                <p className="text-sm text-red-400">{errors.email.message}</p>
+              {errors.username && (
+                <p className="text-sm text-red-400">{errors.username.message}</p>
               )}
             </motion.div>
 

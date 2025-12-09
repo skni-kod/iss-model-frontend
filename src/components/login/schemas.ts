@@ -2,10 +2,9 @@ import { z } from "zod";
 
 // Login form schema
 export const loginSchema = z.object({
-  email: z
+  username: z
     .string()
-    .min(1, "Email jest wymagany")
-    .email("Nieprawidłowy adres email"),
+    .min(1, "Nazwa użytkownika jest wymagana"),
   password: z
     .string()
     .min(1, "Hasło jest wymagane")
@@ -13,6 +12,7 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
+
 
 // Register form schema
 export const registerSchema = z

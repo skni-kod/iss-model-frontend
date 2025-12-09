@@ -22,10 +22,13 @@ export const adminApiClient = axios.create({
   },
 });
 
-// Request interceptor for admin client
+// Request interceptor for admin client - adds auth token
 adminApiClient.interceptors.request.use(
   (config) => {
-    // TODO: Add authentication token here when auth is implemented
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
