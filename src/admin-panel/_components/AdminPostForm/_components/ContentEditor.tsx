@@ -14,16 +14,17 @@ export const ContentEditor = ({
   errors,
 }: ContentEditorProps) => {
   return (
-    <div>
+    <div className="overflow-hidden">
       <label className="block text-sm font-medium text-gray-700 mb-2">
         Treść posta *
       </label>
-      <div data-color-mode="light">
+      <div data-color-mode="light" className="overflow-x-auto">
         <MDEditor
           value={content || ""}
           onChange={(value) => setValue("content", value || "")}
           preview="edit"
-          height={400}
+          height={300}
+          className="min-w-full"
         />
       </div>
       {errors.content && (

@@ -4,7 +4,7 @@ import { heroItemVariants } from "../animations";
 function HeroDescription() {
   return (
     <motion.p
-      className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl"
+      className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mt-4 md:mt-6"
       variants={heroItemVariants}
     >
       Profesjonalne narzędzie do śledzenia położenia ISS na orbicie,

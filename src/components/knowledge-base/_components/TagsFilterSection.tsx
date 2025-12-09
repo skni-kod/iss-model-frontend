@@ -1,6 +1,12 @@
+import { useState } from "react";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
-import { Search, X } from "lucide-react";
+import { Search, X, ChevronDown, Filter } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../../ui/collapsible";
 
 interface TagsFilterSectionProps {
   postsCount: number;
@@ -25,6 +31,8 @@ function TagsFilterSection({
   onClearFilters,
   hasFilters,
 }: TagsFilterSectionProps) {
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
   return (
     <div className="mb-8 space-y-4">
       {/* Search bar */}
@@ -40,39 +48,54 @@ function TagsFilterSection({
         />
       </div>
 
-      {/* Tags and filters */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm font-medium text-muted-foreground">
-            Filtry:
-          </span>
-          {allTags.map((tag) => (
-            <Button
-              key={tag}
-              variant={selectedTags.includes(tag) ? "default" : "secondary"}
-              size="sm"
-              className="h-7 px-3 text-xs rounded-full"
-              onClick={() => onTagToggle(tag)}
-            >
-              {tag}
+      {/* Collapsible Filters */}
+      <Collapsible open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
+        <div className="flex items-center justify-between">
+          <CollapsibleTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2">
+              <Filter className="w-4 h-4" />
+              Filtry
+              {hasFilters && (
+                <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded-full">
+                  {selectedTags.length}
+                </span>
+              )}
+              <ChevronDown
+                className={`w-4 h-4 transition-transform ${
+                  isFiltersOpen ? "rotate-180" : ""
+                }`}
+              />
             </Button>
-          ))}
+          </CollapsibleTrigger>
           {hasFilters && (
             <Button
               variant="ghost"
               size="sm"
               onClick={onClearFilters}
-              className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+              className="h-8 px-3 text-xs text-muted-foreground hover:text-foreground"
             >
               <X className="w-3 h-3 mr-1" />
-              Wyczyść
+              Wyczyść filtry
             </Button>
           )}
         </div>
-        <div className="text-sm text-muted-foreground">
-          {hasFilters && <span className="text-primary"> (filtrowane)</span>}
-        </div>
-      </div>
+
+        <CollapsibleContent className="mt-4">
+          <div className="flex flex-wrap gap-2 p-4 bg-muted/50 rounded-lg border">
+            {allTags.map((tag) => (
+              <Button
+                key={tag}
+                variant={selectedTags.includes(tag) ? "default" : "secondary"}
+                size="sm"
+                className="h-8 px-4 text-sm rounded-full"
+                onClick={() => onTagToggle(tag)}
+              >
+                {tag}
+              </Button>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }

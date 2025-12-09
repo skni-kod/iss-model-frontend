@@ -8,7 +8,7 @@ interface MetaFieldsProps {
 
 export const MetaFields = ({ register, errors }: MetaFieldsProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
       <div>
         <label
           htmlFor="author"
@@ -19,7 +19,7 @@ export const MetaFields = ({ register, errors }: MetaFieldsProps) => {
         <input
           {...register("author")}
           type="text"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         {errors.author && (
           <p className="mt-1 text-sm text-red-600">{errors.author.message}</p>
@@ -36,7 +36,7 @@ export const MetaFields = ({ register, errors }: MetaFieldsProps) => {
         <input
           {...register("publishDate")}
           type="date"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         {errors.publishDate && (
           <p className="mt-1 text-sm text-red-600">
@@ -56,7 +56,7 @@ export const MetaFields = ({ register, errors }: MetaFieldsProps) => {
           {...register("readTime")}
           type="text"
           placeholder="np. 5 min"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         {errors.readTime && (
           <p className="mt-1 text-sm text-red-600">{errors.readTime.message}</p>
@@ -74,7 +74,7 @@ export const MetaFields = ({ register, errors }: MetaFieldsProps) => {
           {...register("image")}
           type="url"
           placeholder="https://example.com/image.jpg"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         {errors.image && (
           <p className="mt-1 text-sm text-red-600">{errors.image.message}</p>
