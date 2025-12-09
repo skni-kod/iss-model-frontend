@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/card";
 import { containerVariants, itemVariants } from "./animations";
 import { registerSchema, type RegisterFormData } from "./schemas";
+import { useRegister } from "./hooks/useRegister";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { isLoading, successMessage, errorMessage, handleRegister } = useRegister();
 
   const {
     register,
@@ -32,15 +34,11 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    setIsLoading(true);
-    
-    // TODO: Implement actual registration logic with API
-    console.log("Register attempt:", data);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    await handleRegister({
+      email: data.email,
+      password: data.password,
+      username: data.name,
+    });
   };
 
   return (
@@ -69,6 +67,24 @@ export function RegisterForm() {
         </CardHeader>
 
         <CardContent className="pt-4">
+          {successMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-3 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 text-sm"
+            >
+              {successMessage}
+            </motion.div>
+          )}
+          {errorMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/30 text-red-400 text-sm"
+            >
+              {errorMessage}
+            </motion.div>
+          )}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <motion.div variants={itemVariants} className="space-y-2">
               <Label htmlFor="name" className="text-gray-300">
