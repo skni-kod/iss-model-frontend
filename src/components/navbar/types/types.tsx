@@ -5,6 +5,7 @@ export interface NavSubItem {
   href: string;
   icon?: LucideIcon;
   description?: string;
+  requiresAuth?: boolean;
 }
 
 export interface NavItem {

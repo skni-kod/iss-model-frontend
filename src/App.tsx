@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { FAQPage } from "./components/faq";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
 // Admin Panel Components
 import AdminLayout from "./admin-panel/AdminLayout";
@@ -31,11 +32,13 @@ function App() {
       </Route>
 
       {/* Admin Panel Routes */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminDashboard />} />
-        <Route path="posts" element={<AdminPostsList />} />
-        <Route path="posts/new" element={<AdminPostForm />} />
-        <Route path="posts/:postId/edit" element={<AdminPostForm />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="posts" element={<AdminPostsList />} />
+          <Route path="posts/new" element={<AdminPostForm />} />
+          <Route path="posts/:postId/edit" element={<AdminPostForm />} />
+        </Route>
       </Route>
     </Routes>
   );

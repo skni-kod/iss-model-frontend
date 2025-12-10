@@ -8,6 +8,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { type NavItem } from "../types/types";
+import { filterNavItemsByAuth } from "../utils";
 
 interface NavigationMenuDropdownProps {
   items: NavItem[];
@@ -18,10 +19,12 @@ export function NavigationMenuDropdown({
   items,
   onOpenChange,
 }: NavigationMenuDropdownProps) {
+  const filteredItems = filterNavItemsByAuth(items);
+
   return (
     <NavigationMenu onValueChange={(value) => onOpenChange?.(!!value)}>
       <NavigationMenuList className="gap-2">
-        {items.map((item) => (
+        {filteredItems.map((item) => (
           <NavigationMenuItem key={item.label}>
             {item.subItems && item.subItems.length > 0 ? (
               <>
@@ -81,3 +84,4 @@ export function NavigationMenuDropdown({
     </NavigationMenu>
   );
 }
+

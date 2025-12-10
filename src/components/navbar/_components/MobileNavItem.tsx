@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { type NavItem } from "../types/types";
+import { isAuthenticated } from "@/lib/auth";
 
 interface MobileNavItemProps {
   item: NavItem;
@@ -10,8 +11,11 @@ interface MobileNavItemProps {
 
 export function MobileNavItem({ item, onClose }: MobileNavItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const filteredSubItems = item.subItems?.filter(
+    (subItem) => !subItem.requiresAuth || isAuthenticated()
+  );
 
-  if (!item.subItems || item.subItems.length === 0) {
+  if (!filteredSubItems || filteredSubItems.length === 0) {
     // Simple nav item without dropdown
     return (
       <Link
@@ -45,7 +49,7 @@ export function MobileNavItem({ item, onClose }: MobileNavItemProps) {
 
       {isExpanded && (
         <div className="ml-4 space-y-1 border-l-2 border-gray-100 pl-4">
-          {item.subItems.map((subItem) => (
+          {filteredSubItems.map((subItem) => (
             <Link
               key={subItem.label}
               to={subItem.href}
@@ -70,3 +74,4 @@ export function MobileNavItem({ item, onClose }: MobileNavItemProps) {
     </div>
   );
 }
+

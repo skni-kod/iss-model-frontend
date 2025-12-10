@@ -80,6 +80,7 @@ export const NAV_CONFIG = {
           href: "/admin",
           icon: Settings,
           description: "Zarządzanie treścią",
+          requiresAuth: true,
         },
       ],
     },

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "@/lib/api/authService";
+import { setAuthToken } from "@/lib/auth";
 import axios from "axios";
 
 interface UseLoginResult {
@@ -24,8 +25,8 @@ export function useLogin(): UseLoginResult {
                 password: data.password,
             });
 
-            localStorage.setItem("authToken", response.token);
-            navigate("/");
+            setAuthToken(response.token);
+            navigate("/admin");
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const message = error.response?.data?.message
