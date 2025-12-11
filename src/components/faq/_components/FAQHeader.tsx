@@ -4,8 +4,8 @@ export const FAQHeader = () => {
   return (
     <div className="text-center mb-12">
       <div className="flex justify-center mb-6">
-        <div className="p-4 bg-blue-600/20 rounded-full border border-blue-500/30">
-          <HelpCircle className="w-12 h-12 text-blue-400" />
+        <div className="p-4 bg-gray-900 rounded-full border border-gray-700/50">
+          <HelpCircle className="w-12 h-12 text-white" />
         </div>
       </div>
       <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
