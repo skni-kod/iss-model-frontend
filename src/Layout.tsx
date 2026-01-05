@@ -7,7 +7,8 @@ function Layout() {
   const isFullWidthPage =
     location.pathname === "/" ||
     location.pathname === "/telemetry" ||
-    location.pathname === "/faq";
+    location.pathname === "/faq" ||
+    location.pathname === "/astronauts";
   const isHomePage = location.pathname === "/home-page";
 
   return (
