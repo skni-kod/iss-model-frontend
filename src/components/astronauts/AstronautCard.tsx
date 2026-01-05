@@ -36,7 +36,7 @@ const getFlagEmoji = (countryCode: string | undefined) => {
 
 function AstronautCard({ astronaut }: Props) {
   return (
-    <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 group border-white/10 bg-black/40 backdrop-blur-md text-white">
+    <Card className="flex flex-col h-full gap-0 p-0 overflow-hidden hover:shadow-2xl transition-all duration-300 group border-white/10 bg-black/40 backdrop-blur-md text-white">
       <div className="relative h-64 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
         <div className="absolute top-0 right-0 p-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -49,7 +49,7 @@ function AstronautCard({ astronaut }: Props) {
           alt={astronaut.name}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute bottom-4 left-4 right-4 z-20 text-white">
           <Badge variant="secondary" className="mb-2 bg-white/20 text-white hover:bg-white/30 backdrop-blur-md border-0">
@@ -59,12 +59,12 @@ function AstronautCard({ astronaut }: Props) {
             {astronaut.name}
           </CardTitle>
           <div className="flex items-center text-sm text-gray-300 mt-1">
-             <span className="mr-2 text-lg">{getFlagEmoji(astronaut.flag_code)}</span>
-             {astronaut.agency || astronaut.country}
+             <span className="mr-2">{getFlagEmoji(astronaut.flag_code)}</span>
+              {astronaut.agency || astronaut.country}
           </div>
         </div>
       </div>
-      <CardContent className="pt-4 bg-white/5">
+      <CardContent className="flex-1 p-4 bg-white/5 flex flex-col justify-center">
         <div className="flex flex-col gap-2 text-sm">
            <div className="flex justify-between items-center py-1 border-b border-white/10 last:border-0">
               <span className="text-gray-400">Statek</span>
@@ -72,7 +72,7 @@ function AstronautCard({ astronaut }: Props) {
            </div>
            <div className="flex justify-between items-center py-1">
               <span className="text-gray-400">Czas na orbicie</span>
-              <span className="font-medium text-sky-400">{astronaut.days_in_space} dni</span>
+              <span className="font-medium">{astronaut.days_in_space} dni</span>
            </div>
         </div>
       </CardContent>

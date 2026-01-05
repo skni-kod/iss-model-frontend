@@ -54,8 +54,8 @@ function Astronauts() {
         <section className="relative overflow-hidden rounded-xl bg-black/40 border border-white/10 shadow-2xl backdrop-blur-md">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent z-10" />
           <div 
-             className="absolute inset-0 opacity-30 bg-center bg-cover z-0"
-             style={{ backgroundImage: `url(${data.expedition_image})` }} 
+             className="absolute inset-0 opacity-30 bg-cover z-0"
+             style={{ backgroundImage: `url(${data.expedition_image})`, backgroundPosition: 'center 10%' }} 
           />
           
           <div className="relative z-20 flex flex-col md:flex-row items-center gap-8 p-8 md:p-12">
@@ -69,7 +69,7 @@ function Astronauts() {
             
             <div className="text-center md:text-left space-y-4 max-w-2xl">
               <div className="space-y-2">
-                <Badge variant="outline" className="text-sky-400 border-sky-400/50 bg-sky-950/30">
+                <Badge variant="outline" className="text-white text-gray-300 bg-white/5 border border-white/10">
                   Obecna Misja
                 </Badge>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
@@ -83,11 +83,11 @@ function Astronauts() {
 
               <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-2">
                  <div className="flex items-center gap-2 text-sm text-gray-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-                    <CalendarIcon className="w-4 h-4 text-sky-400" />
+                    <CalendarIcon className="w-4 h-4" />
                     <span>Start: {new Date(data.expedition_start_date * 1000).toLocaleDateString("pl-PL")}</span>
                  </div>
                  <div className="flex items-center gap-2 text-sm text-gray-300 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-                    <RocketIcon className="w-4 h-4 text-purple-400" />
+                    <RocketIcon className="w-4 h-4" />
                     <span>{data.number} Członków Załogi</span>
                  </div>
               </div>
@@ -102,8 +102,8 @@ function Astronauts() {
           <section key={spacecraft} className="@container space-y-6">
             <div className="flex items-center gap-4">
               <h2 className="text-2xl font-bold flex items-center gap-3 text-white">
-                <span className="p-2 bg-white/5 rounded-lg text-sky-400 border border-white/10">
-                  <RocketIcon className="w-6 h-6" />
+                <span className="p-3 bg-gray-900 rounded-2xl border border-white/10">
+                  <RocketIcon className="w-6 h-6 text-white" />
                 </span>
                 Misja {spacecraft}
               </h2>
