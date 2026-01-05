@@ -2,16 +2,7 @@ import { useEffect, useState } from "react";
 import AstronautCard, { type Astronaut } from "../components/astronauts/AstronautCard";
 import { Badge } from "../components/ui/badge";
 import { CalendarIcon, RocketIcon } from "lucide-react";
-
-interface PeopleInSpaceResponse {
-  number: number;
-  iss_expedition: number;
-  expedition_patch: string;
-  expedition_url: string;
-  expedition_image: string;
-  expedition_start_date: number;
-  people: Astronaut[];
-}
+import { getPeopleInSpace, type PeopleInSpaceResponse } from "../lib/api/astronauts";
 
 interface GroupedAstronauts {
   [key: string]: Astronaut[];
@@ -23,9 +14,8 @@ function Astronauts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://corquaid.github.io/international-space-station-APIs/JSON/people-in-space.json")
-      .then((res) => res.json())
-      .then((apiData: PeopleInSpaceResponse) => {
+    getPeopleInSpace()
+      .then((apiData) => {
         setData(apiData);
         // Group by spacecraft
         const groups: GroupedAstronauts = {};
