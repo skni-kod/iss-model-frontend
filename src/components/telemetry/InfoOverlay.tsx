@@ -16,7 +16,7 @@ function InfoOverlay({ latitude, longitude, altitude, velocity }: Props) {
     }, [latitude, longitude, altitude, velocity]);
 
     return (
-        <div className="absolute bottom-8 right-2 z-[1000] bg-slate-900/70 text-white rounded-xl p-4 shadow-lg w-64">
+        <div className="absolute bottom-8 left-2 z-[1000] bg-slate-900/70 text-white rounded-xl p-4 shadow-lg w-64">
             <div className="text-sm text-gray-300 mb-2">
                 Ostatnia aktualizacja: {lastUpdate}
             </div>
