@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Edit, Trash2, Eye } from "lucide-react";
-import type { Post } from "../../../../components/knowledge-base/types";
+import type { BlogPost } from "../../../../lib/api/blog";
 import PostsTableHeader from "./PostsTableHeader";
 import PostTableRow from "./PostTableRow";
 
 interface PostsTableProps {
-  posts: Post[];
+  posts: BlogPost[];
   onDeletePost: (postId: number) => void;
 }
 
@@ -63,7 +63,7 @@ const PostsTable = ({ posts, onDeletePost }: PostsTableProps) => {
                 </div>
                 <div className="flex items-center gap-3 mt-3">
                   <Link
-                    to={`/knowledge-base/${post.slug}`}
+                    to={`/knowledge-base/${post.slug || post.id}`}
                     className="text-gray-600 hover:text-gray-900 text-xs"
                   >
                     <Eye className="w-4 h-4" />

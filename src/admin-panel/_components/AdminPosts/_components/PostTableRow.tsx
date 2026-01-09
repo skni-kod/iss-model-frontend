@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Edit, Trash2, Eye, Calendar } from "lucide-react";
-import type { Post } from "../../../../components/knowledge-base/types";
+import type { BlogPost } from "../../../../lib/api/blog";
 
 interface PostTableRowProps {
-  post: Post;
+  post: BlogPost;
   onDelete: (postId: number) => void;
 }
 
@@ -58,7 +58,7 @@ const PostTableRow = ({ post, onDelete }: PostTableRowProps) => {
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
         <div className="flex items-center space-x-2">
           <Link
-            to={`/knowledge-base/${post.slug}`}
+            to={`/knowledge-base/${post.slug || post.id}`}
             className="text-gray-600 hover:text-gray-900"
             title="Zobacz post"
           >

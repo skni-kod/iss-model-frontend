@@ -1,11 +1,9 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { samplePosts } from "../../../../components/knowledge-base/data/posts";
-import type { Post } from "../../../../components/knowledge-base/types";
 import { postSchema, type PostFormData } from "../schema";
-import { generateSlug } from "../../../../lib/utils";
+import { createBlogPost, updateBlogPost, getBlogPosts, type BlogPost } from "../../../../lib/api/blog";
 
 export type { PostFormData };
 
@@ -15,6 +13,8 @@ export const usePostForm = () => {
   const isEdit = !!postId;
 
   const [newTag, setNewTag] = useState("");
+  const [editPost, setEditPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(isEdit);
 
   const form = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
@@ -28,27 +28,37 @@ export const usePostForm = () => {
 
   const watchedValues = form.watch();
 
-  const editPost = useMemo(() => {
-    if (isEdit && postId) {
-      return samplePosts.find((p) => p.id === parseInt(postId));
-    }
-    return null;
-  }, [isEdit, postId]);
-
+  // Fetch post data for editing
   useEffect(() => {
-    if (editPost) {
-      form.reset({
-        title: editPost.title,
-        excerpt: editPost.excerpt,
-        content: editPost.content,
-        author: editPost.author,
-        publishDate: editPost.publishDate,
-        readTime: editPost.readTime,
-        image: editPost.image,
-        tags: editPost.tags,
-      });
-    }
-  }, [editPost, form.reset]);
+    const fetchPost = async () => {
+      if (isEdit && postId) {
+        setLoading(true);
+        try {
+          const posts = await getBlogPosts();
+          const post = posts.find((p) => p.id === parseInt(postId));
+          if (post) {
+            setEditPost(post);
+            form.reset({
+              title: post.title,
+              excerpt: post.excerpt,
+              content: post.content,
+              author: post.author,
+              publishDate: post.publishDate,
+              readTime: post.readTime,
+              image: post.image,
+              tags: post.tags,
+            });
+          }
+        } catch (error) {
+          console.error("Błąd podczas pobierania posta:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchPost();
+  }, [isEdit, postId, form]);
 
   const addTag = () => {
     if (newTag.trim() && !watchedValues.tags?.includes(newTag.trim())) {
@@ -68,21 +78,27 @@ export const usePostForm = () => {
 
   const onSubmit = async (data: PostFormData) => {
     try {
-      const slug = generateSlug(data.title);
-
-      const postData: Post = {
-        id: isEdit ? parseInt(postId!) : Date.now(),
-        slug,
-        ...data,
+      const requestData = {
+        author: data.author,
+        content: data.content,
+        excerpt: data.excerpt,
+        image: data.image,
+        images: [],
+        publishDate: data.publishDate,
+        readTime: data.readTime,
+        tags: data.tags,
+        title: data.title,
       };
 
-      console.log("Zapisuję post:", postData);
-
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (isEdit && postId) {
+        await updateBlogPost(parseInt(postId), requestData);
+      } else {
+        await createBlogPost(requestData);
+      }
 
       navigate("/admin/posts");
     } catch (error) {
-      console.error("Błąd podczas zapisywania posta:", error);
+      console.error("[usePostForm] Błąd podczas zapisywania posta:", error);
     }
   };
 
@@ -95,5 +111,7 @@ export const usePostForm = () => {
     addTag,
     removeTag,
     onSubmit,
+    loading,
+    editPost,
   };
 };
