@@ -21,8 +21,8 @@ interface TagsFilterSectionProps {
 }
 
 function TagsFilterSection({
-  postsCount,
-  totalPostsCount,
+  postsCount: _postsCount,
+  totalPostsCount: _totalPostsCount,
   searchQuery,
   selectedTags,
   allTags,
