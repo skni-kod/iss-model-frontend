@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://kni.prz.edu.pl:44067/
+    ports:
+      - "8080:80"
