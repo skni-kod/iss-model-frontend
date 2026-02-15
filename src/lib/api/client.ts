@@ -1,6 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://kni.prz.edu.pl:44067';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+if (!API_BASE_URL) {
+  throw new Error("Missing required environment variable");
+}
 
 /**
  * Regular API client for public endpoints
@@ -8,7 +12,7 @@ const API_BASE_URL = 'http://kni.prz.edu.pl:44067';
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -18,7 +22,7 @@ export const apiClient = axios.create({
 export const adminApiClient = axios.create({
   baseURL: `${API_BASE_URL}/admin`,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -33,18 +37,24 @@ adminApiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor for error handling
 const handleResponseError = (error: unknown) => {
   if (axios.isAxiosError(error)) {
-    console.error('API Error:', error.response?.data || error.message);
+    console.error("API Error:", error.response?.data || error.message);
   }
   return Promise.reject(error);
 };
 
-apiClient.interceptors.response.use((response) => response, handleResponseError);
-adminApiClient.interceptors.response.use((response) => response, handleResponseError);
+apiClient.interceptors.response.use(
+  (response) => response,
+  handleResponseError,
+);
+adminApiClient.interceptors.response.use(
+  (response) => response,
+  handleResponseError,
+);
 
 export default apiClient;
