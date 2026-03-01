@@ -28,4 +28,4 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/skni-kod/iss-model-backend:${{ github.ref_name }}
+            ghcr.io/skni-kod/iss-model-frontend:${{ github.ref_name }}
