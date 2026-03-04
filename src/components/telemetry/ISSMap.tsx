@@ -4,7 +4,9 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import {Viewer, Entity, ImageryLayer} from "resium";
 import {Cartesian3, Color, SceneMode, UrlTemplateImageryProvider, ColorMaterialProperty,} from "cesium";
+
 import InfoOverlay from "@/components/telemetry/InfoOverlay.tsx";
+import issIconUrl from "@/images/space-station.png";
 
 type MapProps = {
     position: [number, number],
@@ -23,7 +25,7 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
     const [lat, lon] = position;
 
     const issIcon = new L.Icon({
-        iconUrl: "src/images/space-station.png",
+        iconUrl: issIconUrl,
         iconSize: [48, 48],
         iconAnchor: [24, 24],
     });

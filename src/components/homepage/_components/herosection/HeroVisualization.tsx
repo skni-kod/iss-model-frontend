@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { heroItemVariants } from "../animations";
+import homePagePhoto from "@/images/home-page-photo.png";
 
 function HeroVisualization() {
   return (
@@ -13,7 +14,7 @@ function HeroVisualization() {
       <div className="relative">
         {/* Home page image */}
         <img 
-          src="/src/images/home-page-photo.png" 
+          src = {homePagePhoto}
           alt="ISS - Międzynarodowa Stacja Kosmiczna"
           className="aspect-square object-cover bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
         />

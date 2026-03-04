@@ -2,6 +2,8 @@ import ISSMap from "@/components/telemetry/ISSMap.tsx";
 import { useEffect, useState } from "react";
 import { twoline2satrec, propagate, gstime, eciToGeodetic, radiansToDegrees } from "satellite.js";
 
+import placeholderMap from "@/images/placeholdermap.png";
+import apiClient from "@/lib/api/client";
 
 type TelemetryData = {
     latitude: number;
@@ -25,8 +27,8 @@ function Telemetry() {
     useEffect(() => {
         const fetchISS = async () => {
             try {
-                const res = await fetch("http://kni.prz.edu.pl:44067/iss/current");
-                const data = await res.json();
+                const res = await apiClient.get("/iss/current");
+                const data = res.data
                 setTelemetry({
                     latitude: parseFloat(data.latitude.toFixed(8)),
                     longitude: parseFloat(data.longitude.toFixed(8)),
@@ -183,7 +185,7 @@ function Telemetry() {
                     />
                 ) : (
                     <img
-                        src="src/images/placeholdermap.png"
+                        src = {placeholderMap}
                         alt="Mapa ISS"
                         className="w-full rounded-lg shadow-lg"
                     />
