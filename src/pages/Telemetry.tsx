@@ -175,7 +175,7 @@ function Telemetry() {
             </div>
 
             <div className="w-full">
-                {telemetry  ? (
+                {telemetry && TLE ? (
                     <ISSMap
                         position={[telemetry.latitude, telemetry.longitude]}
                         altitude={telemetry.altitude}
