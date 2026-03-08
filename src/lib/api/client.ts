@@ -52,9 +52,17 @@ apiClient.interceptors.response.use(
   (response) => response,
   handleResponseError,
 );
+
+// Admin client: auto-logout on 401 (expired/invalid token)
 adminApiClient.interceptors.response.use(
   (response) => response,
-  handleResponseError,
+  (error) => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      localStorage.removeItem("authToken");
+      window.location.href = "/login";
+    }
+    return handleResponseError(error);
+  },
 );
 
 export default apiClient;
