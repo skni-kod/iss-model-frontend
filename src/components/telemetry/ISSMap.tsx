@@ -7,6 +7,7 @@ import {Cartesian3, Color, SceneMode, ColorMaterialProperty, Ion, TileMapService
 
 import InfoOverlay from "@/components/telemetry/InfoOverlay.tsx";
 import issIconUrl from "@/images/space-station.png";
+import MapControls from "./MapControls";
 
 //default cesium token
 Ion.defaultAccessToken = "null";
@@ -80,25 +81,14 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
     }, []);
 
     return (
-        <div className="relative h-[80vh] w-full ">
-            {/* switch between 3d and 2d*/}
-            <button
-                onClick={() => setMode(mode === "2d" ? "3d" : "2d")}
-                className="absolute top-2 left-2 z-[1000] bg-slate-900/70 text-white px-4 py-2 rounded-lg cursor-pointer shadow-md"
-            >
-                {mode === "2d" ? "Przełącz na 3D" : "Przełącz na 2D"}
-            </button>
-
-            {mode === "3d" && (
-                <button
-                    onClick={() => setCurrentView(currentView === "real" ? "nice" : "real")}
-                    className={`absolute top-2 right-2 z-[1000] px-12 py-2 rounded-full shadow-md 
-            ${currentView === "real" ? "bg-indigo-600 text-white" : "bg-white text-indigo-600 border border-indigo-600"}`}
-                >
-                    {currentView === "real" ? "Trajektoria uproszczona" : "Trajektoria rzeczywista"}
-                </button>
-            )}
-
+        // <div className="relative h-[80vh] w-full ">
+        <div className="relative w-full h-[80vh] overflow-hidden"> 
+            <MapControls 
+                mode={mode} 
+                setMode={setMode} 
+                currentView={currentView} 
+                setCurrentView={setCurrentView} 
+            />
             {mode === "2d" ? (
                 <MapContainer
                     center={[lat,lon]}
@@ -108,10 +98,13 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
                     style={{backgroundColor: "white"}}
                     scrollWheelZoom={false}
                     zoomControl={width < 768}
-                    dragging={false}
+                    dragging={width < 768}
                     maxBoundsViscosity={1.0}
+                    maxBounds={[
+                        [-90, -180],
+                        [90, 180]
+                    ]}
                 >
-
                     <MapResizer width={width} />
                     
                     <InfoOverlay
@@ -134,12 +127,18 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
                 <Viewer
                     full
                     sceneMode={SceneMode.SCENE3D}
+                    sceneModePicker={false}
                     baseLayerPicker={false}
+                    navigationHelpButton={false}
+                    fullscreenButton={false}
+                    vrButton={false}
                     animation={false}
                     timeline={false}
                     geocoder={false}
-                >
-                    
+                    homeButton={false} 
+                    infoBox={false}
+                    selectionIndicator={false}
+                >                
                     <ScreenSpaceCameraController 
                         maximumZoomDistance={40000000} 
                         minimumZoomDistance={150000}

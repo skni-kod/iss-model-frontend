@@ -8,16 +8,17 @@ function Layout() {
     location.pathname === "/" ||
     location.pathname === "/telemetry" ||
     location.pathname === "/faq" ||
-    location.pathname === "/astronauts";
-  const isHomePage = location.pathname === "/home-page";
+    location.pathname === "/astronauts" ||
+    location.pathname === "/home-page";
 
+  const isTelemetry = location.pathname === "/telemetry";
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
         <Navbar />
-        {isFullWidthPage || isHomePage ? (
+        {isFullWidthPage ? (
           //Pełna szerokość dla strony z mapą, home page i FAQ
-          <main>
+          <main className={isTelemetry ? "pt-24" : ""}>
             <Outlet />
           </main>
         ) : (
