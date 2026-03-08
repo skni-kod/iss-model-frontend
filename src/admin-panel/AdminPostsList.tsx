@@ -18,18 +18,8 @@ const AdminPostsList = () => {
     handleDeletePost,
     loading,
     error,
+    refetchPosts,
   } = usePostsManagement();
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Ładowanie postów...</p>
-        </div>
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -45,7 +35,7 @@ const AdminPostsList = () => {
   return (
     <div>
       <div className="mb-8">
-        <PostsListHeader />
+        <PostsListHeader onRefresh={refetchPosts} loading={loading} />
         <PostsFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -55,12 +45,30 @@ const AdminPostsList = () => {
         />
       </div>
 
-      <PostsTable posts={filteredPosts} onDeletePost={handleDeletePost} />
+      {loading && posts.length === 0 ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Ładowanie postów...</p>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="relative">
+            {loading && posts.length > 0 && (
+              <div className="absolute inset-0 bg-background/50 z-10 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              </div>
+            )}
+            <PostsTable posts={filteredPosts} onDeletePost={handleDeletePost} />
+          </div>
 
-      <PostsSummary
-        filteredCount={filteredPosts.length}
-        totalCount={posts.length}
-      />
+          <PostsSummary
+            filteredCount={filteredPosts.length}
+            totalCount={posts.length}
+          />
+        </>
+      )}
     </div>
   );
 };
