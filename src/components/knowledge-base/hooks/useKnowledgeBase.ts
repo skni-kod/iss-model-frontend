@@ -1,18 +1,40 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Post } from "../types";
-import { samplePosts } from "../data/posts";
+import { getBlogPosts } from "../../../lib/api/blog";
 
 export function useKnowledgeBase() {
   const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch posts from API
+  const fetchPosts = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getBlogPosts();
+      setAllPosts(data);
+    } catch (err) {
+      console.error("Błąd podczas pobierania postów:", err);
+      setError("Nie udało się pobrać artykułów");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   // Filtered posts based on search and tags
   const filteredPosts = useMemo(() => {
-    return samplePosts.filter((post) => {
+    return allPosts.filter((post) => {
       const matchesSearch =
         searchQuery === "" ||
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -25,29 +47,31 @@ export function useKnowledgeBase() {
 
       return matchesSearch && matchesTags;
     });
-  }, [searchQuery, selectedTags]);
+  }, [allPosts, searchQuery, selectedTags]);
 
   // All available tags
   const allTags = useMemo(() => {
     const tags = new Set<string>();
-    samplePosts.forEach((post) => {
+    allPosts.forEach((post) => {
       post.tags.forEach((tag) => tags.add(tag));
     });
     return Array.from(tags).sort();
-  }, []);
+  }, [allPosts]);
 
-  // Effect for handling routing
+  // Effect for handling routing - find post by slug or id
   useEffect(() => {
-    if (postId) {
-      const post = samplePosts.find((p) => p.slug === postId);
+    if (postId && allPosts.length > 0) {
+      const post =
+        allPosts.find((p) => p.slug === postId) ||
+        allPosts.find((p) => String(p.id) === postId);
       setSelectedPost(post || null);
     } else {
       setSelectedPost(null);
     }
-  }, [postId]);
+  }, [postId, allPosts]);
 
   const handlePostSelect = (post: Post): void => {
-    navigate(`/knowledge-base/${post.slug}`);
+    navigate(`/knowledge-base/${post.slug || post.id}`);
   };
 
   const handleBackToList = (): void => {
@@ -70,10 +94,12 @@ export function useKnowledgeBase() {
     selectedPost,
     searchQuery,
     selectedTags,
+    loading,
+    error,
 
     // Data
     posts: filteredPosts,
-    allPosts: samplePosts,
+    allPosts,
     allTags,
 
     // Actions
@@ -82,10 +108,12 @@ export function useKnowledgeBase() {
     setSearchQuery,
     handleTagToggle,
     clearFilters,
+    refetch: fetchPosts,
 
     // Helpers
     hasFilters: searchQuery !== "" || selectedTags.length > 0,
     postsCount: filteredPosts.length,
-    totalPostsCount: samplePosts.length,
+    totalPostsCount: allPosts.length,
   };
 }
+

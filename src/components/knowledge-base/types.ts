@@ -1,6 +1,6 @@
 export interface Post {
   id: number;
-  slug: string;
+  slug?: string;
   title: string;
   excerpt: string;
   content: string;
@@ -9,4 +9,7 @@ export interface Post {
   tags: string[];
   readTime: string;
   image: string;
+  images?: string[];
+  created_at?: string;
+  updated_at?: string;
 }
