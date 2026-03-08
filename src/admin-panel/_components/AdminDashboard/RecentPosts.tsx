@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import type { Post } from "../../../components/knowledge-base/types";
+import type { BlogPost } from "../../../lib/api/blog";
 
 interface RecentPostsProps {
-  posts: Post[];
+  posts: BlogPost[];
 }
 
 const RecentPosts = ({ posts }: RecentPostsProps) => {

@@ -30,7 +30,7 @@ function FeaturedPost({ post }: FeaturedPostProps) {
               </span>
             </div>
             <Link
-              to={`/knowledge-base/${post.slug}`}
+              to={`/knowledge-base/${post.slug || post.id}`}
               className="text-xl font-bold mb-3 text-foreground hover:text-primary transition-colors block"
             >
               {post.title}
@@ -43,7 +43,7 @@ function FeaturedPost({ post }: FeaturedPostProps) {
                 {post.author} • {post.publishDate}
               </div>
               <Link
-                to={`/knowledge-base/${post.slug}`}
+                to={`/knowledge-base/${post.slug || post.id}`}
                 className="text-primary hover:text-primary/80 font-medium text-sm transition-colors hover:underline"
               >
                 Czytaj więcej →

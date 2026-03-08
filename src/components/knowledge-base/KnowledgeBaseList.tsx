@@ -3,10 +3,10 @@ import KnowledgeBaseHeader from "./_components/KnowledgeBaseHeader";
 import TagsFilterSection from "./_components/TagsFilterSection";
 import PostsGrid from "./_components/PostsGrid";
 import FeaturedPost from "./_components/FeaturedPost";
-import { samplePosts } from "./data/posts";
 
 interface KnowledgeBaseListProps {
   posts: Post[];
+  totalPostsCount: number;
   allTags: string[];
   searchQuery: string;
   selectedTags: string[];
@@ -19,6 +19,7 @@ interface KnowledgeBaseListProps {
 
 function KnowledgeBaseList({
   posts,
+  totalPostsCount,
   allTags,
   searchQuery,
   selectedTags,
@@ -34,7 +35,7 @@ function KnowledgeBaseList({
 
       <TagsFilterSection
         postsCount={posts.length}
-        totalPostsCount={samplePosts.length}
+        totalPostsCount={totalPostsCount}
         searchQuery={searchQuery}
         selectedTags={selectedTags}
         allTags={allTags}
@@ -52,3 +53,4 @@ function KnowledgeBaseList({
 }
 
 export default KnowledgeBaseList;
+

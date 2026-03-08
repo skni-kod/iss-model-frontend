@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/+$/, '');
 
 if (!API_BASE_URL) {
   throw new Error("Missing required environment variable");
@@ -52,9 +52,17 @@ apiClient.interceptors.response.use(
   (response) => response,
   handleResponseError,
 );
+
+// Admin client: auto-logout on 401 (expired/invalid token)
 adminApiClient.interceptors.response.use(
   (response) => response,
-  handleResponseError,
+  (error) => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      localStorage.removeItem("authToken");
+      window.location.href = "/login";
+    }
+    return handleResponseError(error);
+  },
 );
 
 export default apiClient;
