@@ -16,26 +16,29 @@ function InfoOverlay({ latitude, longitude, altitude, velocity }: Props) {
     }, [latitude, longitude, altitude, velocity]);
 
     return (
-        <div className="absolute bottom-8 right-2 z-[1000] bg-slate-900/70 text-white rounded-xl p-4 shadow-lg w-64">
-            <div className="text-sm text-gray-300 mb-2">
+        <div className="absolute bottom-0 left-0 w-full md:bottom-8 md:left-auto md:right-2 md:w-64 z-[1000] 
+                        bg-slate-900/85 text-white rounded-t-2xl md:rounded-xl p-4 shadow-lg backdrop-blur-sm">
+                            
+            <div className="text-[10px] md:text-sm text-gray-400 mb-1 md:mb-2 uppercase tracking-wider">
                 Ostatnia aktualizacja: {lastUpdate}
             </div>
-            <div className="space-y-1 text-sm">
-                <div>
-                    <span className="font-semibold">Szerokość geogr.: </span>
-                    {latitude.toFixed(2)}°
+
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-1 text-xs md:text-sm">
+                <div className="flex justify-between md:block">
+                    <span className="font-semibold md:text-white">Szerokość.: </span>
+                    <span>{latitude.toFixed(2)}°</span>
                 </div>
-                <div>
-                    <span className="font-semibold">Długość geogr.: </span>
-                    {longitude.toFixed(2)}°
+                <div className="flex justify-between md:block">
+                    <span className="font-semibold md:text-white">Długość.: </span>
+                    <span>{longitude.toFixed(2)}°</span>
                 </div>
-                <div>
-                    <span className="font-semibold">Wysokość: </span>
-                    {altitude.toFixed(2)} km
+                <div className="flex justify-between md:block">
+                    <span className="font-semibold md:text-white">Wysokość.: </span>
+                    <span>{altitude.toFixed(0)} km</span>
                 </div>
-                <div>
-                    <span className="font-semibold">Prędkość: </span>
-                    {velocity.toFixed(2)} km/s
+                <div className="flex justify-between md:block">
+                    <span className="font-semibold md:text-white">Prędkość.: </span>
+                    <span>{velocity.toFixed(2)} km/s</span>
                 </div>
             </div>
         </div>
