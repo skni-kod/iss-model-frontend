@@ -80,6 +80,14 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
         setupProvider();
     }, []);
 
+    function ChangeView({ center }: { center: [number, number] }) {
+        const map = useMap();
+        useEffect(() => {
+            map.setView(center, map.getZoom(), { animate: true });
+        }, [center, map]);
+        return null;
+    }
+
     return (
         // <div className="relative h-[80vh] w-full ">
         <div className="relative w-full h-[80vh] overflow-hidden"> 
@@ -100,11 +108,9 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
                     zoomControl={width < 768}
                     dragging={width < 768}
                     maxBoundsViscosity={1.0}
-                    maxBounds={[
-                        [-90, -180],
-                        [90, 180]
-                    ]}
                 >
+                    <ChangeView center={[lat, lon]} />
+
                     <MapResizer width={width} />
                     
                     <InfoOverlay
@@ -141,7 +147,7 @@ function ISSMap({position, trajectory, niceTrajectory, velocity, altitude, }: Ma
                 >                
                     <ScreenSpaceCameraController 
                         maximumZoomDistance={40000000} 
-                        minimumZoomDistance={150000}
+                        minimumZoomDistance={10000000}
                         zoomFactor={2.0}
                         enableCollisionDetection={true}
                     />
