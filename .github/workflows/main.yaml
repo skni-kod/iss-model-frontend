@@ -18,7 +18,7 @@ permissions:
 jobs:
   build:
     if: ${{ github.event_name == 'push' || inputs.build_image == true }}
-    uses: ./.github/workflows/build_push.yml
+    uses: ./.github/workflows/build_push.yaml
 
   deploy:
     needs: [build]
