@@ -27,6 +27,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
+          no-cache: true
           tags: |
             ghcr.io/skni-kod/iss-model-frontend:${{ github.ref_name }}
           build-args: |
