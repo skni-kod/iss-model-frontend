@@ -1,0 +1,42 @@
+name: Production deploy
+
+on:
+  push:
+    branches: [main, frontend-deploy]
+  workflow_dispatch:
+    inputs:
+      build_image:
+        description: "If true new version of docker image is built"
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'push' || inputs.build_image == true }}
+    uses: ./.github/workflows/build_push.yaml
+
+  deploy:
+    needs: [build]
+    if: ${{ always() && (needs.build.result == 'success' || needs.build.result == 'skipped' ) }}
+    environment: staging
+    runs-on: self-hosted
+    steps:
+      - name: Staging deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          port: ${{ secrets.REMOTE_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+
+            cd /home/iss
+
+            docker compose --file docker-compose.stag.yml pull && docker compose --file docker-compose.stag.yml up -d
+            docker system prune -a -f
