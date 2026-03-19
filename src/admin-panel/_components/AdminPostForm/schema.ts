@@ -13,7 +13,7 @@ export const postSchema = z.object({
   author: z.string().min(1, "Autor jest wymagany"),
   publishDate: z.string().min(1, "Data publikacji jest wymagana"),
   readTime: z.string().min(1, "Czas czytania jest wymagany"),
-  image: z.string().url("Podaj prawidłowy URL obrazu"),
+  image: z.string().url("Podaj prawidłowy URL obrazu").optional().or(z.literal("")),
   tags: z.array(z.string()).min(1, "Dodaj przynajmniej jeden tag"),
 });
 

@@ -1,6 +1,7 @@
 import type { Post } from "../types";
 import { ArrowLeft, Clock, Calendar, User, Share2 } from "lucide-react";
 import { Button } from "../../ui/button";
+import { PlaceholderImage } from "./PlaceholderImage";
 
 interface ArticleHeaderProps {
   post: Post;
@@ -53,11 +54,15 @@ function ArticleHeader({ post, onBack }: ArticleHeaderProps) {
 
       {/* Hero image */}
       <div className="aspect-video overflow-hidden rounded-lg mb-8">
-        <img
-          src={post.image}
-          alt={post.title}
-          className="w-full h-full object-cover"
-        />
+        {post.image ? (
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <PlaceholderImage className="w-full h-full" />
+        )}
       </div>
     </header>
   );

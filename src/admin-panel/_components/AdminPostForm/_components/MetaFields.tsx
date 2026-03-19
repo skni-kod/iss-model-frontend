@@ -68,7 +68,7 @@ export const MetaFields = ({ register, errors }: MetaFieldsProps) => {
           htmlFor="image"
           className="block text-sm font-medium text-gray-700 mb-2"
         >
-          URL obrazu głównego *
+          URL obrazu głównego (opcjonalnie)
         </label>
         <input
           {...register("image")}

@@ -3,6 +3,7 @@ import { Edit, Trash2, Eye } from "lucide-react";
 import type { BlogPost } from "../../../../lib/api/blog";
 import PostsTableHeader from "./PostsTableHeader";
 import PostTableRow from "./PostTableRow";
+import { PlaceholderImage } from "../../../../components/knowledge-base/_components/PlaceholderImage";
 
 interface PostsTableProps {
   posts: BlogPost[];
@@ -29,11 +30,19 @@ const PostsTable = ({ posts, onDeletePost }: PostsTableProps) => {
         {posts.map((post) => (
           <div key={post.id} className="p-4 hover:bg-gray-50">
             <div className="flex gap-3">
-              <img
-                className="h-16 w-16 rounded-lg object-cover flex-shrink-0"
-                src={post.image}
-                alt={post.title}
-              />
+              {post.image ? (
+                <img
+                  className="h-16 w-16 rounded-lg object-cover flex-shrink-0"
+                  src={post.image}
+                  alt={post.title}
+                />
+              ) : (
+                <PlaceholderImage
+                  className="h-16 w-16 rounded-lg flex-shrink-0"
+                  containerClassName="p-2 rounded-xl w-10 h-10"
+                  iconClassName="w-6 h-6"
+                />
+              )}
               <div className="flex-1 min-w-0">
                 <h3 className="text-sm font-medium text-gray-900 truncate">
                   {post.title}

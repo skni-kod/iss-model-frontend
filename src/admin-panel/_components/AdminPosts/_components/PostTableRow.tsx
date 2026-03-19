@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Edit, Trash2, Eye, Calendar } from "lucide-react";
 import type { BlogPost } from "../../../../lib/api/blog";
+import { PlaceholderImage } from "../../../../components/knowledge-base/_components/PlaceholderImage";
 
 interface PostTableRowProps {
   post: BlogPost;
@@ -13,11 +14,19 @@ const PostTableRow = ({ post, onDelete }: PostTableRowProps) => {
       <td className="px-6 py-4">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-12 w-12">
-            <img
-              className="h-12 w-12 rounded-lg object-cover"
-              src={post.image}
-              alt={post.title}
-            />
+            {post.image ? (
+              <img
+                className="h-12 w-12 rounded-lg object-cover"
+                src={post.image}
+                alt={post.title}
+              />
+            ) : (
+              <PlaceholderImage
+                className="h-12 w-12 rounded-lg"
+                containerClassName="p-1 rounded-md w-8 h-8"
+                iconClassName="w-5 h-5"
+              />
+            )}
           </div>
           <div className="ml-4">
             <div className="text-sm font-medium text-gray-900">

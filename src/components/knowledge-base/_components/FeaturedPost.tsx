@@ -1,5 +1,6 @@
 import type { Post } from "../types";
 import { Link } from "react-router-dom";
+import { PlaceholderImage } from "./PlaceholderImage";
 
 interface FeaturedPostProps {
   post: Post;
@@ -14,11 +15,15 @@ function FeaturedPost({ post }: FeaturedPostProps) {
       <div className="bg-card border rounded-lg overflow-hidden shadow-sm">
         <div className="md:flex">
           <div className="md:w-1/2">
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-64 md:h-full object-cover"
-            />
+            {post.image ? (
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full h-64 md:h-full object-cover"
+              />
+            ) : (
+              <PlaceholderImage className="w-full h-64 md:h-full" />
+            )}
           </div>
           <div className="md:w-1/2 p-6 flex flex-col justify-center">
             <div className="flex items-center gap-2 mb-3">
