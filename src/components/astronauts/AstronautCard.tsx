@@ -40,9 +40,9 @@ function AstronautCard({ astronaut }: Props) {
       <div className="relative h-64 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
         <div className="absolute top-0 right-0 p-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-             <Badge variant="outline" className="bg-black/50 border-white/20 text-white backdrop-blur-md">
-                {astronaut.spacecraft}
-             </Badge>
+          <Badge variant="outline" className="bg-black/50 border-white/20 text-white backdrop-blur-md">
+            {astronaut.spacecraft}
+          </Badge>
         </div>
         <img
           src={astronaut.image}
@@ -59,21 +59,21 @@ function AstronautCard({ astronaut }: Props) {
             {astronaut.name}
           </CardTitle>
           <div className="flex items-center text-sm text-gray-300 mt-1">
-             <span className="mr-2">{getFlagEmoji(astronaut.flag_code)}</span>
-              {astronaut.agency || astronaut.country}
+            <span className="mr-2">{getFlagEmoji(astronaut.flag_code)}</span>
+            {astronaut.agency || astronaut.country}
           </div>
         </div>
       </div>
       <CardContent className="flex-1 p-4 bg-white/5 flex flex-col justify-center">
         <div className="flex flex-col gap-2 text-sm">
-           <div className="flex justify-between items-center py-1 border-b border-white/10 last:border-0">
-              <span className="text-gray-400">Statek</span>
-              <span className="font-medium text-gray-200">{astronaut.spacecraft}</span>
-           </div>
-           <div className="flex justify-between items-center py-1">
-              <span className="text-gray-400">Czas na orbicie</span>
-              <span className="font-medium">{astronaut.days_in_space} dni</span>
-           </div>
+          <div className="flex justify-between items-center py-1 border-b border-white/10 last:border-0">
+            <span className="text-gray-400">Statek</span>
+            <span className="font-medium text-gray-200">{astronaut.spacecraft}</span>
+          </div>
+          <div className="flex justify-between items-center py-1">
+            <span className="text-gray-400">Czas na orbicie</span>
+            <span className="font-medium">{astronaut.days_in_space} dni</span>
+          </div>
         </div>
       </CardContent>
     </Card>

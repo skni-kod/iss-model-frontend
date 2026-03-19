@@ -6,6 +6,7 @@ import {
   Map,
   MoreHorizontal,
   Settings,
+  LogIn,
 } from "lucide-react";
 import { type NavItem } from "../types/types";
 
@@ -74,6 +75,12 @@ export const NAV_CONFIG = {
           href: "/faq",
           icon: BookOpen,
           description: "Najczęściej zadawane pytania",
+        },
+        {
+          label: "Logowanie",
+          href: "/login",
+          icon: LogIn,
+          description: "Zaloguj się do panelu admina",
         },
         {
           label: "Panel Admina",
