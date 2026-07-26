@@ -1,42 +1,47 @@
 name: Production deploy
 
 on:
-  push:
-    branches: [main, frontend-deploy]
+  # push:
+  #   branches: [main, frontend-deploy]
   workflow_dispatch:
     inputs:
-      build_image:
-        description: "If true new version of docker image is built"
+      commit_id:
+        type: string
         required: true
-        type: boolean
-        default: true
 
 permissions:
   contents: read
   packages: write
+  id-token: write
+  attestations: write
 
 jobs:
   build:
-    if: ${{ github.event_name == 'push' || inputs.build_image == true }}
-    uses: ./.github/workflows/build_push.yaml
+    uses: skni-kod/skni-platform-workflows/.github/workflows/docker-image-creation.yaml@image-creation-improvements
+    with:
+      commit_id: ${{ inputs.commit_id }}
+      image_name: ${{ github.event.repository.name }}
+      push: false
+      build_args: |
+        VITE_API_BASE_URL=${{ vars.VITE_API_BASE_URL }}
 
-  deploy:
-    needs: [build]
-    if: ${{ always() && (needs.build.result == 'success' || needs.build.result == 'skipped' ) }}
-    environment: staging
-    runs-on: self-hosted
-    steps:
-      - name: Staging deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          port: ${{ secrets.REMOTE_PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            set -e
+  # deploy:
+  #   needs: [build]
+  #   if: ${{ always() && (needs.build.result == 'success' || needs.build.result == 'skipped' ) }}
+  #   environment: staging
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Staging deploy
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.REMOTE_HOST }}
+  #         username: ${{ secrets.REMOTE_USER }}
+  #         port: ${{ secrets.REMOTE_PORT }}
+  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #         script: |
+  #           set -e
 
-            cd /home/iss
+  #           cd /home/iss
 
-            docker compose --file docker-compose.stag.yml pull && docker compose --file docker-compose.stag.yml up -d
-            docker system prune -a -f
+  #           docker compose --file docker-compose.stag.yml pull && docker compose --file docker-compose.stag.yml up -d
+  #           docker system prune -a -f
